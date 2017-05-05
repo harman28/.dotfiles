@@ -9,8 +9,10 @@ function source_if() {
   fi
 }
 
-source_if ~/.dotfiles/files/bashrc._git     # Git related scripts
+# Order matters, as files will backreference functions
+#
 source_if ~/.dotfiles/files/bashrc.unix     # Unix tools
+source_if ~/.dotfiles/files/bashrc._git     # Git related scripts
 source_if ~/.dotfiles/files/bashrc.mac      # Stuff that works only on Macs
 source_if ~/.dotfiles/files/bashrc.housing  # Housing
 source_if ~/.dotfiles/files/bashrc.razorpay # Razorpay

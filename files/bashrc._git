@@ -65,11 +65,7 @@ function git_rebase_force() {
   echo "Rebasing branch"
   git rebase master
   echo "Branch rebased"
-  read -p "Are you sure you want to force push this branch? <y/N> " prompt
-  if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
-  then
-    git push origin $BRANCH --force
-  else
-    echo "Lol okay."
-  fi
+  echo "WARNING: Force pushing is dangerous, and this script"\
+       "doesn't bother checking if the rebase went as expected."
+  confirm && git push origin $BRANCH --force
 }

@@ -23,14 +23,9 @@ ulimit -S -n 2700
 alias php_coverage_driver="sublime /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
 
 function pucov() {
-  echo "Confirm xdebug is enabled here: /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
-  read -p "Continue? <y/N> " prompt
-  if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
-  then
-    phpunit --coverage-html coverage/ --stop-on-failure --stop-on-error --filter $1
-  else
-    echo "Lol okay."
-  fi
+  echo "WARNING: Confirm xdebug is enabled here:"\
+       "/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
+  confirm && phpunit --coverage-html coverage/ --filter $1
 }
 
 # Clears all logged info in razorpay/api

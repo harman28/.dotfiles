@@ -18,9 +18,6 @@ alias diff='colordiff'
 # Stuff I don't want showing up in the git repo
 alias rc='sublime ~/.bashrc'
 
-# Confirmation
-# alias rm='rm –i '
-
 # Ruby inline
 alias rube="ruby -e"
 
@@ -48,6 +45,20 @@ alias CD='cd'
 
 # Make dir and cd into it. Looks like gaali but isn't.
 function mkcd () { mkdir -p "$@" && cd "$@"; }
+
+# Bash doesn't have a yield, but this is close enough
+# Little macro that checks for confirmation before executing something
+# Usage:
+# echo "Warning: you are doing dangerous_thing"
+# confirm && do_dangerous_thing
+function confirm() {
+  read -p "Continue? <y/N> " prompt
+  if [[ $prompt != "y" && $prompt != "Y" && $prompt != "yes" && $prompt != "Yes" ]]
+  then
+    echo "Lol okay."
+    false
+  fi
+}
 
 # Gently murder the nice apps
 function close(){
