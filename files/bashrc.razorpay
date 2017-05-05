@@ -22,6 +22,17 @@ ulimit -S -n 2700
 # Need a coverage driver to run tests, here's where you can enable xdebug
 alias php_coverage_driver="sublime /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
 
+function pucov() {
+  echo "Confirm xdebug is enabled here: /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
+  read -p "Continue? <y/N> " prompt
+  if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+  then
+    phpunit --coverage-html coverage/ --stop-on-failure --stop-on-error --filter $1
+  else
+    echo "Lol okay."
+  fi
+}
+
 # Clears all logged info in razorpay/api
 function clear_log() {
   > /Users/harmansingh/workplace/razorpay/api/storage/logs/trace.log
