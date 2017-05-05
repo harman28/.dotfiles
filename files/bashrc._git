@@ -53,3 +53,23 @@ function gcl() {
 function gco_date() {
   git checkout `git rev-list -n 1 --before="$1" master`
 }
+
+# Only run this for small PRs
+function git_rebase_force() {
+  BRANCH=$(git_branch)
+  git checkout master
+  echo "Pulling latest changes"
+  git pull origin master
+  echo "Master updated"
+  git checkout $BRANCH
+  echo "Rebasing branch"
+  git rebase master
+  echo "Branch rebased"
+  read -p "Are you sure you want to force push this branch? <y/N> " prompt
+  if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+  then
+    git push origin $BRANCH --force
+  else
+    echo "Lol okay."
+  fi
+}
