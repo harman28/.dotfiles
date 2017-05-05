@@ -1,3 +1,3 @@
 #!/bin/sh
 
-source .dotfiles/files/bashrc
+source ~/.dotfiles/files/bashrc

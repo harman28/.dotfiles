@@ -9,10 +9,6 @@ source_if ~/.git-completion.bash
 # Github PAT
 # Moved to .vars
 
-function git_branch() {
-  git rev-parse --abbrev-ref HEAD 2> /dev/null
-}
-
 alias gs='git status'
 alias GS='git status'
 alias gd='git diff'
@@ -26,15 +22,25 @@ alias gco='git checkout'
 alias gstash='git stash'
 alias gp='git pull'
 alias gpom='git pull origin master'
-alias gpo="git push origin $(git_branch)"
 alias gmm='git merge master'
 
 # Makes my git prompt beautiful
+function git_branch() {
+  git rev-parse --abbrev-ref HEAD 2> /dev/null
+}
+alias gpo="git push origin $(git_branch)"
 function git_branch_paran() {
   git rev-parse 2> /dev/null 1>&2 && echo "(`git_branch`)"
 }
 function prompt(){
-  PS1="\[\033[01;34m\]\u\[\033[01;37m\]@\h\[\033[01;32m\] \W $(git_branch_paran)\[\033[00m\] > "
+  git rev-parse 2> /dev/null 1>&2 && git diff-index --quiet HEAD --
+  changed=$?
+  color_code='32'
+  if [ $changed -eq 1 ]
+  then
+    color_code='31'
+  fi
+  PS1="\[\033[01;34m\]\u\[\033[01;37m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
 }
 export PROMPT_COMMAND=prompt
 
