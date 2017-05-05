@@ -5,10 +5,15 @@ My dotfiles.
 ```sh
 > git clone https://github.com/harman28/.dotfiles.git ~/.dotfiles
 > echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
-> sudo cat ~/.dotfiles/files/hosts >> /etc/hosts
 ```
 
 You're done.
+
+Want a nice hosts file that blocks a bunch of ads?
+```sh
+> sudo ln -s ~/.dotfiles/files/hosts /etc/hosts
+> # sudo cat ~/.dotfiles/files/hosts >> /etc/hosts
+```
 
 For the full setup, do this instead
 ```sh

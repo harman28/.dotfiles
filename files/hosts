@@ -3,13 +3,27 @@
 #
 # I know this isn't the right place for it, but I needed
 # a nice place to keep that Spotify adblock list.
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
 
-# IP addresses I just need easier access to
-# but won't buy a domain
+# Local servers, in dev
+127.0.0.1 api.razorpay.dev
+127.0.0.1 dashboard.razorpay.dev
+
+# IP addresses I just need easier
+# access to but won't buy a domain
 139.59.39.63 thatharmansingh.com
 
 # Sites I want to block
 # Mostly ad services I never want to see
+
+# Mackeeper
+0.0.0.0 seemlessfixing.tech
+0.0.0.0 mackeeper.com
 
 # Spotify ad domains
 0.0.0.0 adclick.g.doublecklick.net
