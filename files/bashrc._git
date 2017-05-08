@@ -25,21 +25,33 @@ alias gpom='git pull origin master'
 alias gmm='git merge master'
 
 # Makes my git prompt beautiful
+function is_git_dir() {
+  return $(git rev-parse 2>/dev/null 1>&2)
+}
 function git_branch() {
   git rev-parse --abbrev-ref HEAD 2> /dev/null
 }
 alias gpo="git push origin $(git_branch)"
 function git_branch_paran() {
-  git rev-parse 2> /dev/null 1>&2 && echo "(`git_branch`)"
+  is_git_dir && echo "(`git_branch`)"
 }
-function prompt(){
-  git rev-parse 2> /dev/null 1>&2 && git diff-index --quiet HEAD --
-  changed=$?
+function get_color_code() {
   color_code='32'
-  if [ $changed -eq 1 ]
+  is_git_dir && new_files=$(git ls-files --others --exclude-standard | wc -l)
+  if [[ $new_files -ne 0 ]]
+  then
+    color_code='33'
+  fi
+  is_git_dir && git diff-index --quiet HEAD --
+  files_changed=$?
+  if [[ $files_changed -eq 1 ]]
   then
     color_code='31'
   fi
+  echo $color_code
+}
+function prompt(){
+  color_code=$(get_color_code)
   PS1="\[\033[01;34m\]\u\[\033[01;37m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
 }
 export PROMPT_COMMAND=prompt
@@ -50,6 +62,7 @@ function gcl() {
 }
 
 # Git checkout by date, instead of commit
+# Usage: gco_date "2016-12-31"
 function gco_date() {
   git checkout `git rev-list -n 1 --before="$1" master`
 }
