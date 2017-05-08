@@ -4,15 +4,13 @@
 
 echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
 
-which brew 1>2
+which brew 1>&2
 # If brew isn't located, exit code is 1
 if [[ 1 = $? ]]
 then
   echo 'Installing brew'
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
-
-mkdir -p ~/workplace/executables
 
 brew_if() {
   if [[ $(brew ls --versions $1) ]]
@@ -37,12 +35,14 @@ brew_if lynx
 brew_if ncdu
 
 add_to_executables() {
-  if [ ! -f ~/workplace/executables/$1]
+  if [[ ! -f ~/workplace/executables/$1 ]]
   then
     wget -O ~/workplace/executables/$1 $2
     chmod +x ~/workplace/executables/$1
   fi
 }
+
+mkdir -p ~/workplace/executables
 
 # Subtitle script
 add_to_executables subtitle-downloader https://raw.githubusercontent.com/manojmj92/subtitle-downloader/master/subtitle-downloader.py

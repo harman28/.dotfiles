@@ -32,7 +32,7 @@ function lookup(){
 # what you really want to do is copy it somewhere else.
 # Let me strip that newline for you.
 function path(){
-  if [ $# -eq 0 ]
+  if [[ $# -eq 0 ]]
   then
     pwd | tee /dev/tty | tr -d '[:space:]' | pbcopy
   else
@@ -62,7 +62,7 @@ function confirm() {
 
 # Gently murder the nice apps
 function close(){
-  if [ $# -eq 0 ]
+  if [[ $# -eq 0 ]]
     then echo "Usage: ${FUNCNAME[0]} [PATTERN]"
   elif [[ -n $(pgrep $1) ]]
     then kill $(pgrep $1); echo "Quit $1."
@@ -73,7 +73,7 @@ function close(){
 
 # Brutally extinguish all processes that match a pattern
 function hunt(){
-  if [ $# -eq 0 ]
+  if [[ $# -eq 0 ]]
     then echo "Usage: ${FUNCNAME[0]} [PATTERN]"
   elif [[ -n $(pgrep $1) ]]
     then sudo kill -9 $(pgrep $1); echo "$1 has been taken care of."

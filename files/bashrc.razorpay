@@ -40,7 +40,7 @@ alias clear_cache="redis-cli flushall"
 
 # Checks if Rzp Api is serving the same commit on all instances
 function rzp_api_check() {
-  if [ $# -eq 0 ]
+  if [[ $# -eq 0 ]]
   then
     limit=10
   else
@@ -52,7 +52,7 @@ function rzp_api_check() {
   for ((n=0;n<$limit;n++))
   do
     new_commit=$(curl -s https://api.razorpay.com/commit.txt)
-    if [ "$new_commit" != "$expected_commit" ]
+    if [[ "$new_commit" != "$expected_commit" ]]
     then
       ((fault++))
       unexpected_commit=$new_commit
@@ -60,7 +60,7 @@ function rzp_api_check() {
   done
   failure=$((100*$fault/$limit))
   echo "Tried $limit times. Got the wrong commit $fault times."
-  if [ "$unexpected_commit" != "$expected_commit" ]
+  if [[ "$unexpected_commit" != "$expected_commit" ]]
   then
     echo "That's $failure%"
     echo $expected_commit

@@ -10,7 +10,7 @@ alias boondh='ssh harman@thatharmansingh.com'
 alias gossh='ssh harman@139.59.39.63'
 #mount remote vm using sshfs
 function mountvm(){
-  if [ $# -eq 0 ]
+  if [[ $# -eq 0 ]]
     #then echo "Usage: ${FUNCNAME[0]} [MOUNTING_POINT]"
     then
       if [[ -n $(ls ~/workplace/vm) ]]
