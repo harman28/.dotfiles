@@ -28,6 +28,11 @@ function pucov() {
   confirm && phpunit --coverage-html coverage/ --filter $1
 }
 
+# Makes it easier to call heroku for winky
+function winky() {
+  heroku $* --app rzp-hubot
+}
+
 # Clears all logged info in razorpay/api
 function clear_log() {
   > /Users/harmansingh/workplace/razorpay/api/storage/logs/trace.log
