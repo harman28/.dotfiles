@@ -33,6 +33,10 @@ alias mailqunv='mailqun --view-body'
 ## https://github.com/Bashmug/betty
 alias betty='/Users/harmansingh/betty/main.rb'
 
+# Making switching accounts even easier than it already is
+# https://github.com/heroku/heroku-accounts
+alias heroku-set='heroku accounts:set'
+
 # Look Ma, I can send files to my Kindle directly from command line!
 # Use brew for mutt
 function kindle(){
