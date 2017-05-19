@@ -23,6 +23,8 @@ ulimit -S -n 2700
 alias php_coverage_driver="sublime /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
 
 function pucov() {
+  echo "Removing old coverage directory."
+  confirm && rm -rf coverage/
   echo "WARNING: Confirm xdebug is enabled here:"\
        "/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
   confirm && phpunit --coverage-html coverage/ --filter $1
