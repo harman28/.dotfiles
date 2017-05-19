@@ -69,16 +69,32 @@ function gco_date() {
 
 # Only run this for small PRs
 function git_rebase_force() {
-  BRANCH=$(git_branch)
-  git checkout master
-  echo "Pulling latest changes"
-  git pull origin master
-  echo "Master updated"
-  git checkout $BRANCH
-  echo "Rebasing branch"
-  git rebase master
-  echo "Branch rebased"
-  echo "WARNING: Force pushing is dangerous, and this script"\
-       "doesn't bother checking if the rebase went as expected."
-  confirm && git push origin $BRANCH --force
+  if [[ $# -eq 1 ]]
+  then
+    CURRENT_BRANCH=$(git_branch)
+    echo 'Stashing changes'
+    git stash
+    git checkout $1
+    git_rebase_force
+    git checkout $CURRENT_BRANCH
+    git stash pop
+  else
+    TARGET_BRANCH=$(git_branch)
+    git checkout master
+    if [ $(git rev-parse HEAD) == $(git ls-remote origin master | cut -f1) ]
+    then
+      echo 'Master is already up-to-date'
+    else
+      echo 'Pulling latest changes'
+      git pull origin master
+      echo 'Master updated'
+    fi
+    git checkout $TARGET_BRANCH
+    echo "Rebasing $TARGET_BRANCH"
+    git rebase master
+    echo 'Branch rebased'
+    echo 'WARNING: Force pushing is dangerous, and this script'\
+         "doesn't bother checking if the rebase went as expected."
+    confirm && git push origin $BRANCH --force
+  fi
 }
