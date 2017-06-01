@@ -17,6 +17,34 @@ alias firefox='open -a /Applications/Firefox.app/'
 alias safari='open -a safari'
 alias vlc='open -a /Applications/VLC.app'
 
+# Popup in notification center
+function notify() {
+  osascript -e 'display notification "Whatever you were waiting for, is done" with title "Success!"'
+}
+
+# Lets you run a command continuously till it returns status zero
+# At which point it throws a notification
+#
+# Example: Notify me when my cult booking script has given a recent success
+# poll "curl -s http://139.59.39.63/cult/harman/log.txt | tail | grep SUCCESS";
+function poll() {
+  if [[ $# -ne 1 ]]
+  then
+    echo "Poll what?"
+    echo "Usage: poll 'the command you want to run'"
+  else
+    cmd=$1
+
+    ( eval $cmd ) && notify 1>&2 2>/dev/null
+
+    while [[ $? -ne 0 ]]
+    do
+      sleep 1
+      ( eval $cmd ) && notify
+    done
+  fi
+}
+
 # vlc shortcut to radio
 # Retired after rockradio removed radio links
 # alias goradio-blues="/Applications/VLC.app/Contents/MacOS/VLC ~/Music/Radios\ and\ Playlists/ROCKRADIO.COM/Blues\ Rock/ROCKRADIO.COM\ -\ Blues\ Rock.pls "
