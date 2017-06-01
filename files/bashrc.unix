@@ -15,6 +15,9 @@ export HISTCONTROL=ignoreboth
 # How  did anyone function without this?
 alias diff='colordiff'
 
+# unix coin toss
+alias toss="rube 'p rand.round.zero? ? :heads : :tails'"
+
 # Stuff I don't want showing up in the git repo
 alias rc='sublime ~/.bashrc'
 
