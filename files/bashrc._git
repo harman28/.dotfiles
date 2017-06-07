@@ -50,11 +50,11 @@ function get_color_code() {
   fi
   echo $color_code
 }
-function prompt(){
+function git_prompt(){
   color_code=$(get_color_code)
   PS1="\[\033[01;34m\]\u\[\033[01;37m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
 }
-export PROMPT_COMMAND=prompt
+export PROMPT_COMMAND="${PROMPT_COMMAND};git_prompt"
 
 # Git clone, and then cd into project directory
 function gcl() {
