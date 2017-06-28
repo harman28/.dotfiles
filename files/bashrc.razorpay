@@ -19,15 +19,23 @@ alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filt
 #
 ulimit -S -n 2700
 
-# Need a coverage driver to run tests, here's where you can enable xdebug
-alias php_coverage_driver="sublime /usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
-
 function pucov() {
-  echo "Removing old coverage directory."
-  confirm && rm -rf coverage/
-  echo "WARNING: Confirm xdebug is enabled here:"\
-       "/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini"
-  confirm && phpunit --coverage-html coverage/ --filter $1
+  # echo "Removing old coverage directory."
+  # confirm && rm -rf coverage/
+  xdebug_ini=/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini
+  commented=$(cat $xdebug_ini | tail -n 1 | cut -c1)
+  if [ $commented == ';' ]
+  then
+    echo "ERROR: xdebug isn't enabled here: $xdebug_ini"
+    echo 'Want to enable now?'
+    confirm && sublime_wait $xdebug_ini
+    if [ $? == 1 ]
+    then
+      return
+    fi
+  fi
+  phpunit --coverage-html coverage/ --filter $1
+  open coverage/index.html
 }
 
 # Makes it easier to call heroku for winky
