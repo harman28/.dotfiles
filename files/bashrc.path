@@ -19,4 +19,8 @@ PATH="${PATH}:/usr/local/sbin"
 # Executables
 PATH="${PATH}:~/workplace/executables"
 
+# Go
+export GOPATH='~/workplace/go'
+PATH="${PATH}:~/workplace/go/bin"
+
 export PATH

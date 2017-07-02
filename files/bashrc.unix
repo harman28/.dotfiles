@@ -15,14 +15,14 @@ export HISTCONTROL=ignoreboth
 # How  did anyone function without this?
 alias diff='colordiff'
 
+# Ruby inline
+alias rube="ruby -e"
+
 # unix coin toss
 alias toss="rube 'p rand.round.zero? ? :heads : :tails'"
 
 # Stuff I don't want showing up in the git repo
 alias rc='sublime ~/.bashrc'
-
-# Ruby inline
-alias rube="ruby -e"
 
 # If there's a .bashrc in the current directory, grab it
 function pick_bashrc_if_available(){
