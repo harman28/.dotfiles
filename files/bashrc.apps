@@ -37,6 +37,9 @@ alias betty='/Users/harmansingh/betty/main.rb'
 # https://github.com/heroku/heroku-accounts
 alias heroku-set='heroku accounts:set'
 
+# Disable cache clearing on Popcorn Time, get local movies
+alias popcorn='cd /var/folders/2j/g3d9p45j47j_1l74k3kxn6sr0000gn/T/Popcorn-Time'
+
 # Look Ma, I can send files to my Kindle directly from command line!
 # Use brew for mutt
 function kindle(){
