@@ -31,7 +31,16 @@ function is_git_dir() {
 function git_branch() {
   git rev-parse --abbrev-ref HEAD 2> /dev/null
 }
-alias gpo="git push origin $(git_branch)"
+# alias gpo="git push origin $(git_branch)"
+function gpo() {
+  CURRENT_BRANCH=$(git_branch)
+  git push origin $CURRENT_BRANCH
+}
+function gpo_force() {
+  CURRENT_BRANCH=$(git_branch)
+  echo "WARNING: You're sure, right?"
+  confirm && git push origin $CURRENT_BRANCH --force
+}
 function git_branch_paran() {
   is_git_dir && echo "(`git_branch`)"
 }
@@ -52,7 +61,7 @@ function get_color_code() {
 }
 function git_prompt(){
   color_code=$(get_color_code)
-  PS1="\[\033[01;34m\]\u\[\033[01;37m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
+  PS1="\[\033[01;34m\]\u\[\033[01;39m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
 }
 export PROMPT_COMMAND="${PROMPT_COMMAND};git_prompt"
 
@@ -95,6 +104,6 @@ function git_rebase_force() {
     echo 'Branch rebased'
     echo 'WARNING: Force pushing is dangerous, and this script'\
          "doesn't bother checking if the rebase went as expected."
-    confirm && git push origin $BRANCH --force
+    confirm && git push origin $TARGET_BRANCH --force
   fi
 }
