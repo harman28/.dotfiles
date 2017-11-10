@@ -20,6 +20,9 @@ alias vlc='open -a /Applications/VLC.app'
 # Popup in notification center
 function notify() {
   osascript -e 'display notification "Whatever you were waiting for, is done" with title "Success!"'
+
+  message=$1
+  osascript -e 'display notification "$1" with title "Success!"'
 }
 
 # Lets you run a command continuously till it returns status zero
