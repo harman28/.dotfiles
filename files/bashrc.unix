@@ -35,10 +35,13 @@ function pick_bashrc_if_available(){
 export PROMPT_COMMAND=pick_bashrc_if_available
 
 # Look up IPs easily
-function lookup(){
-  whois $1
+function ip(){
   curl -X GET "https://ipinfo.io/$1"
   echo
+}
+function lookup(){
+  whois $1
+  ip $1
 }
 
 # If you're checking path for something, I suspect
