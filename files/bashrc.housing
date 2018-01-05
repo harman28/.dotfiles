@@ -104,3 +104,74 @@
 #   grep {.*} ~/workspace/vm/snippets/plot.geojson | pbcopy
 #   open -a /Applications/Google\ Chrome.app http://geojsonlint.com/ #http://jsonlint.com/
 # }
+
+# alias echo='echo -e'
+# alias 500?='servers_check'
+
+# servers_check(){
+#   #echo "\033[0;34m\033[1mServer \t\t Status \t Port \t Git Branch\033[0m\033[0m"
+#   echo "\033[0;34m\033[1mServer \t\t Port \t tmux session \t Git Branch\033[0m\033[0m"
+
+#   # Regions server
+#   servers_checkone 3001 'Main   ' 'main'  ~/regions.main
+
+#   # Regions server
+#   servers_checkone 3005 'Clone  ' 'clone' ~/regions.clone
+
+#   # Regions server
+#   servers_checkone 3011 'Testing' 'testing' ~/regions.testing
+
+#   # Rails server
+#   servers_checkone 3000 'Rails  ' 'rails' ~/housing-rails
+
+#   # Raven server
+#   servers_checkone 8010 'Raven  ' 'raven' ~/Raven
+
+#   # Frontend gulp server
+#   servers_checkone 4000 'Node   ' 'node'  ~/housing-node
+
+#   # Buy server
+#   servers_checkone 3002 'Buy    ' 'buy' ~/housing.buy
+
+#   # ES server
+#   servers_checkone 9200 'ES     ' 'elastic'
+
+#   # Polygon Panel
+#   servers_checkone 5011 'PolyPanel' 'ppanel' ~/housing.polygoneditor
+
+#   # Building Panel
+#   servers_checkone 4011 'BuildingPanel' 'bpanel' ~/housing.buildings
+
+#   # RabbitMQ server
+#   # servers_checkone 5672 'RabbitMQ' 'servers'
+
+#   # Regions server
+#   servers_checkone 9000 'Directories' 'webserver'
+# }
+# servers_checkone(){
+#   DIGIT=$(($RANDOM%8))
+#   THIRTY="3$DIGIT"
+#   RANDC="\033[1;${THIRTY}m"
+
+#   RED='\033[0;31m'
+#   GREEN='\033[0;32m'
+#   LRED='\033[1;31m'
+#   LGREEN='\033[1;32m'
+#   PINK='\033[0;35m'
+#   BLUE='\033[0;36m'
+#   BROWN='\033[0;33m'
+#   NC='\033[0m'
+
+#   if [[ -n $(fuser $1/tcp 2>/dev/null ) ]]
+#     then
+#     if [ -z "$4" ];
+#       then
+#       echo "${LGREEN}$2${NC} \t ${BROWN}$1${NC}"
+#     else
+#       branch=$(cd $4;git rev-parse --abbrev-ref HEAD 2>&1)
+#       echo "${LGREEN}$2${NC} \t ${BROWN}$1${NC} \t ${PINK}$3${NC}   \t ${BLUE}$branch${NC}"
+#     fi
+#   else
+#     echo "${LRED}$2${NC} \t ${BROWN}$1${NC} \t ${PINK}$3${NC}"
+#   fi
+# }
