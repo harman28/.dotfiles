@@ -33,6 +33,7 @@ brew_if tmux
 brew_if mutt
 brew_if lynx
 brew_if ncdu
+brew_if terminal-notifier
 gem install mailqun
 
 add_to_executables() {

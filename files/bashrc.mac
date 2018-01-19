@@ -19,10 +19,7 @@ alias vlc='open -a /Applications/VLC.app'
 
 # Popup in notification center
 function notify() {
-  osascript -e 'display notification "Whatever you were waiting for, is done" with title "Success!"'
-
-  # message=$1
-  # osascript -e 'display notification "$1" with title "Success!"'
+  terminal-notifier -message "$2" -title "$1" -sound Ping
 }
 
 # Lets you run a command continuously till it returns status zero
@@ -38,7 +35,7 @@ function poll() {
   else
     cmd=$1
 
-    ( eval $cmd ) && notify 1>&2 2>/dev/null
+    ( eval $cmd ) && notify "Done!" "Polling complete" 1>&2 2>/dev/null
 
     while [[ $? -ne 0 ]]
     do

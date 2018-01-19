@@ -1,0 +1,232 @@
+#!/bin/sh
+#
+# Company related things, that can probably be removed or repurposed when I leave, go here.
+
+# Terminal jump
+alias razorpay='cd ~/workplace/razorpay'
+alias api='cd ~/workplace/razorpay/api'
+alias dashboard='cd ~/workplace/razorpay/dashboard'
+
+# Gogogo
+alias gocodebase='cd ~/workplace/razorpay/api; sublime .;'
+
+# CLI
+alias tinker='api; php artisan tinker;'
+
+# PHPUNIT
+alias pufilt="phpunit --debug --verbose --filter"
+alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filter"
+
+#
+ulimit -S -n 2700
+
+# RZP Entities
+#
+# Usage:
+# merc 8iMbVsEnv1HCo0
+function merc() {
+  open "https://dashboard.razorpay.com/admin/entity/merchant/live/$1"
+}
+# Usage:
+# pay pay_9FBg7zvrIUTynB
+# pay 9FBg7zvrIUTynB
+function pay() {
+  open "https://dashboard.razorpay.com/admin/entity/payment/live/$1"
+}
+# Usage:
+# rzp order
+# rzp order order_9FBg71aeZmprMm
+# rzp order 9FBg71aeZmprMm
+function rzp() {
+  if [[ $# -eq 1 ]]
+  then
+    open "https://dashboard.razorpay.com/admin/entities/live/$1"
+  else
+    open "https://dashboard.razorpay.com/admin/entity/$1/live/$2"
+  fi
+}
+# Usage:
+# zen 131947
+function zen() {
+  open "https://razorpay.zendesk.com/agent/tickets/$1"
+}
+# In case dashboard is reverted:
+# function merc() {
+#   open "https://dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
+# }
+# function pay() {
+#   open "https://dashboard.razorpay.com/admin#/app/payments/live/$1"
+# }
+# function rzp() {
+#   open "https://dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
+# }
+
+#
+# Notification and link for wercker pipelines
+#
+# Usage:
+# werck_me_up $runId
+# werck_me_up 5a54102cf591740001529c4d
+#
+# Dependency:
+# Needs terminal-notifier for pretty notifications.
+# You can still use Applescript without it, but what's the point, just keep freshing the tab na then.
+#
+function werck_me_up() {
+  while : ;
+  do
+    response=$(curl -s -H "Authorization: Bearer $WERCKER_TOKEN" https://app.wercker.com/api/v3/runs/$1)
+    echo $response | jq -r '.status' | grep -q finished
+    [[ $? -ne 0 ]] || break
+    sleep 10
+  done
+
+  result=$(echo $response | jq -r '.result')
+  branch=$(echo $response | jq -r '.branch')
+  pipeline=$(echo $response | jq -r '.pipeline.name')
+  url="https://app.wercker.com/Razorpay/api/runs/build/$1"
+  icon="https://raw.githubusercontent.com/wantedly/step-pretty-slack-notify/master/icons/$result.jpg"
+
+  # Needs terminal-notifier
+  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" -title "$result!" -open "$url" -sound Ping -appIcon $icon
+
+  # Applescript alternative, no link, no icon, and a stupid sound
+  # osascript -e "display notification \"Pipeline $result\" with title \"$result!\""
+}
+
+function deploy() {
+  curl -s -X POST \
+     -H "Authorization: Bearer $WERCKER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "{\"pipelineId\":\"$WERCKER_PROD_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
+     "https://app.wercker.com/api/v3/runs" | jq
+}
+function beta() {
+  curl -s -X POST \
+     -H "Authorization: Bearer $WERCKER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "{\"pipelineId\":\"$WERCKER_BETA_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
+     "https://app.wercker.com/api/v3/runs" | jq
+}
+function charlie() {
+  curl -s -X POST \
+     -H "Authorization: Bearer $WERCKER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "{\"pipelineId\":\"$WERCKER_CHARLIE_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
+     "https://app.wercker.com/api/v3/runs" | jq
+}
+
+function pucov() {
+  # echo "Removing old coverage directory."
+  # confirm && rm -rf coverage/
+  xdebug_ini=/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini
+  commented=$(cat $xdebug_ini | tail -n 1 | cut -c1)
+  if [ $commented == ';' ]
+  then
+    echo "ERROR: xdebug isn't enabled here: $xdebug_ini"
+    echo 'Want to enable now?'
+    confirm && sublime_wait $xdebug_ini
+    if [ $? == 1 ]
+    then
+      return
+    fi
+  else
+    echo "xdebug is enabled, good: $xdebug_ini"
+  fi
+  phpunit --coverage-html coverage/ --debug --verbose --filter $1
+  open coverage/index.html
+}
+
+# Makes it easier to call heroku for winky
+function winky() {
+  heroku $* --app rzp-hubot
+}
+
+# Clears all logged info in razorpay/api
+function clear_log() {
+  rm /Users/harmansingh/workplace/razorpay/api/storage/logs/localhost-trace-*.log
+  > /Users/harmansingh/workplace/razorpay/api/storage/logs/laravel.log
+  > /Users/harmansingh/workplace/razorpay/api/storage/logs/cron.log
+  > /Users/harmansingh/workplace/razorpay/api/storage/logs/instance.json
+}
+
+alias clear_cache="redis-cli flushall"
+
+# Checks if Rzp Api is serving the same commit on all instances
+function rzp_api_check() {
+  if [[ $# -eq 0 ]]
+  then
+    limit=10
+  else
+    limit=$1
+  fi
+  expected_commit=$(curl -s https://api.razorpay.com/commit.txt)
+  unexpected_commit=$expected_commit
+  fault=0
+  for ((n=0;n<$limit;n++))
+  do
+    new_commit=$(curl -s https://api.razorpay.com/commit.txt)
+    if [[ "$new_commit" != "$expected_commit" ]]
+    then
+      ((fault++))
+      unexpected_commit=$new_commit
+    fi
+  done
+  failure=$((100*$fault/$limit))
+  echo "Tried $limit times. Got the wrong commit $fault times."
+  if [[ "$unexpected_commit" != "$expected_commit" ]]
+  then
+    echo "That's $failure%"
+    echo $expected_commit
+    echo $unexpected_commit
+  fi
+}
+
+#reach office and be lazy immediately
+function gorazorpay_gogogo(){
+  gocodebase
+
+  #run tests in new terminal window
+  # osascript -e '
+  # tell application "Terminal"
+  #   do script "cd ~/workplace/razorpay/api; phpunit;"
+  # end tell '
+
+  chrome 'https://mail.google.com/mail/u/1/#inbox' \
+      'https://github.com/razorpay/api/pulls' \
+      'https://splunk-mumbai.razorpay.com/en-US/app/search/api_errors?earliest=0&latest='
+
+  open_working
+
+  open /Applications/Slack.app
+  open /Applications/Spotify.app
+  open /Applications/Franz.app
+}
+
+# Nonsense that doesn't really work
+#
+# update_working() {
+#   WHAT_IM_WORKING_ON=()
+#   while read -r line; do WHAT_IM_WORKING_ON+=($line); done < ~/.pulls
+# }
+# WHAT_IM_WORKING_ON=()
+# update_working
+# working() {
+#   echo $1 >> ~/.pulls
+#   sort -u ~/.pulls > ~/.pulls.tmp
+#   cat ~/.pulls.tmp > ~/.pulls
+#   rm ~/.pulls.tmp
+#   update_working
+# }
+# notworking() {
+#   sed '/$1/d' ~/.pulls > ~/.pulls.tmp
+#   cat ~/.pulls.tmp > ~/.pulls
+#   rm ~/.pulls.tmp
+#   update_working
+# }
+# open_working() {
+#   for t in "${WHAT_IM_WORKING_ON[@]}"
+#   do
+#     chrome "https://github.com/razorpay/api/pull/$t"
+#   done
+# }

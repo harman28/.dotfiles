@@ -35,12 +35,34 @@ function git_branch() {
 function gpo() {
   CURRENT_BRANCH=$(git_branch)
   git push origin $CURRENT_BRANCH
+  listen_for_wercker_build $CURRENT_BRANCH
 }
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
   echo "WARNING: You're sure, right?"
   confirm && git push origin $CURRENT_BRANCH --force
+  listen_for_wercker_build $CURRENT_BRANCH
 }
+function listen_for_wercker_build() {
+  directory=${PWD##*/}
+  if [[ $directory != 'api' ]]
+  then
+    return
+  fi
+  sleep 1
+  response=$(curl -G -s -X GET \
+                   -H "Authorization: Bearer $WERCKER_TOKEN" \
+                   -d "pipelineId=$WERCKER_BUILD_PIPELINE_ID" \
+                   -d "result=unknown" \
+                   -d "branch=$1" \
+                   -d "limit=1" \
+                   "https://app.wercker.com/api/v3/runs")
+  wercker_run_id=$(echo $response | jq -r '.[0].id')
+  echo -n "Tracking wercker pipeline: "
+  echo $wercker_run_id
+  werck_me_up $wercker_run_id &
+}
+
 function git_branch_paran() {
   is_git_dir && echo "(`git_branch`)"
 }
@@ -105,5 +127,12 @@ function git_rebase_force() {
     echo 'WARNING: Force pushing is dangerous, and this script'\
          "doesn't bother checking if the rebase went as expected."
     confirm && git push origin $TARGET_BRANCH --force
+    listen_for_wercker_build $TARGET_BRANCH
   fi
+}
+
+function merge() {
+  curl -s -X PUT \
+       -H "Authorization: token $GUT_TOKEN" \
+       "https://api.github.com/repos/$GUT_DEFAULT_OWNER/$GUT_DEFAULT_REPO/pulls/$1/merge" | jq
 }
