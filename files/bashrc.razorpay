@@ -6,6 +6,7 @@
 alias razorpay='cd ~/workplace/razorpay'
 alias api='cd ~/workplace/razorpay/api'
 alias dashboard='cd ~/workplace/razorpay/dashboard'
+alias docs='cd ~/workplace/razorpay/docs'
 
 # Gogogo
 alias gocodebase='cd ~/workplace/razorpay/api; sublime .;'
@@ -70,7 +71,7 @@ function zen() {
 #
 # Dependency:
 # Needs terminal-notifier for pretty notifications.
-# You can still use Applescript without it, but what's the point, just keep freshing the tab na then.
+# You can still use Applescript without it, but what's the point, just keep refreshing the tab na then.
 #
 function werck_me_up() {
   while : ;
@@ -88,10 +89,34 @@ function werck_me_up() {
   icon="https://raw.githubusercontent.com/wantedly/step-pretty-slack-notify/master/icons/$result.jpg"
 
   # Needs terminal-notifier
-  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" -title "$result!" -open "$url" -sound Ping -appIcon $icon
+  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" \
+                    -title "$result!" \
+                    -open "$url" \
+                    -sound Ping \
+                    -appIcon $icon
 
   # Applescript alternative, no link, no icon, and a stupid sound
   # osascript -e "display notification \"Pipeline $result\" with title \"$result!\""
+}
+
+function listen_for_wercker_build() {
+  directory=${PWD##*/}
+  if [[ $directory != 'api' ]]
+  then
+    return
+  fi
+  sleep 1
+  response=$(curl -G -s -X GET \
+                   -H "Authorization: Bearer $WERCKER_TOKEN" \
+                   -d "pipelineId=$WERCKER_BUILD_PIPELINE_ID" \
+                   -d "result=unknown" \
+                   -d "branch=$1" \
+                   -d "limit=1" \
+                   "https://app.wercker.com/api/v3/runs")
+  wercker_run_id=$(echo $response | jq -r '.[0].id')
+  echo -n "Tracking wercker pipeline: "
+  echo $wercker_run_id
+  werck_me_up $wercker_run_id &
 }
 
 function deploy() {
@@ -114,6 +139,12 @@ function charlie() {
      -H "Content-Type: application/json" \
      -d "{\"pipelineId\":\"$WERCKER_CHARLIE_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
      "https://app.wercker.com/api/v3/runs" | jq
+}
+
+function redash() {
+  curl -s -G -O -X GET \
+    -d "api_key=$REDASH_TOKEN" \
+    "https://redash.razorpay.com/api/queries/$1/results.xlsx"
 }
 
 function pucov() {

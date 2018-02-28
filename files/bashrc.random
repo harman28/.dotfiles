@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Stuff that doesn't fit anywhere else, goes here
+
+# Tennis DB and AR mimic
+tennis(){
+    cd ~/workplace/tennis
+    psql atpdatabase2017
+}
+
+# Koinex
+function koinex() {
+  curl -s 'https://koinex.in/api/dashboards/ticker' -H 'user-agent: Shylock/v0.1.0' -H 'cookie: cf_clearance=d38d6d8fa7c8527c6b7d4a0b9dafe30b5ba6e934-1517539301-1800' --compressed | jq
+}

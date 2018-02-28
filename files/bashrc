@@ -20,14 +20,9 @@ source_if ~/.dotfiles/files/bashrc.apps     # Scripts that expect some stuff to 
 source_if ~/.dotfiles/files/bashrc.path     # $PATH config
 source_if ~/.dotfiles/files/bashrc.vars     # Env variables for various projects
 source_if ~/.dotfiles/files/bashrc.vm       # VM things
+source_if ~/.dotfiles/files/bashrc.random   # Stuff that doesn't fit anywhere else
 
 dot() {
   sublime ~/.dotfiles
   cd ~/.dotfiles
-}
-
-# Tennis DB and AR mimic
-tennis(){
-    cd ~/workplace/tennis
-    psql atpdatabase2017
 }
