@@ -68,8 +68,9 @@ function mkcd () { mkdir -p "$@" && cd "$@"; }
 # echo "Warning: you are doing dangerous_thing"
 # confirm && do_dangerous_thing
 function confirm() {
-  read -p "Continue? <y/N> " prompt
-  if [[ $prompt != "y" && $prompt != "Y" && $prompt != "yes" && $prompt != "Yes" ]]
+  read -p "Continue? <Y/N> " input
+  response=$(echo -n "$input" | awk '{print tolower($0)}')
+  if [[ $response != "y" && $response != "yes" ]]
   then
     echo "Lol okay."
     false
