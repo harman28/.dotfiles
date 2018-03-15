@@ -121,9 +121,18 @@ function git_rebase_force() {
 #
 # Usage:
 # merge 7636
+# merge 7636 rebase
+# merge 7636 squash
 #
 function merge() {
+  merge_method='merge'
+  if [[ $# -eq 2 ]]
+  then
+    merge_method=$2
+  fi
   curl -s -X PUT \
        -H "Authorization: token $GUT_TOKEN" \
+       -H "Content-Type: application/json" \
+       -d "{\"merge_method\":\"$merge_method\"}" \
        "https://api.github.com/repos/$GUT_DEFAULT_OWNER/$GUT_DEFAULT_REPO/pulls/$1/merge" | jq
 }
