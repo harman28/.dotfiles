@@ -2,13 +2,32 @@
 #
 # Stuff that doesn't fit anywhere else, goes here
 
-# Tennis DB and AR mimic
+# Tennis DB
 tennis(){
     cd ~/workplace/tennis
     psql atpdatabase2017
 }
 
 # Koinex
+#
+# Cloudflare clearance cookie doesn't seem to expire for some reason.
+# Check prices without opening the super slow website woohoo.
 function koinex() {
-  curl -s 'https://koinex.in/api/dashboards/ticker' -H 'user-agent: Shylock/v0.1.0' -H 'cookie: cf_clearance=d38d6d8fa7c8527c6b7d4a0b9dafe30b5ba6e934-1517539301-1800' --compressed | jq
+  curl --silent \
+       --header 'user-agent: Shylock/v0.1.0' \
+       --header 'cookie: cf_clearance=d38d6d8fa7c8527c6b7d4a0b9dafe30b5ba6e934-1517539301-1800' \
+       'https://koinex.in/api/dashboards/ticker' | jq
+}
+
+# Push to Android
+#
+# Usage: push {title_of_note} {body_of_note}
+function push() {
+  curl --silent \
+       --header "Access-Token: $PUSHBULLET_TOKEN" \
+       --data "target_device_iden=$PUSHBULLET_PHONE_ID" \
+       --data "type=note" \
+       --data "title=$1" \
+       --data "body=$2" \
+       https://api.pushbullet.com/v2/pushes | jq
 }
