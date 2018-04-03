@@ -7,6 +7,7 @@ alias razorpay='cd ~/workplace/razorpay'
 alias api='cd ~/workplace/razorpay/api'
 alias dashboard='cd ~/workplace/razorpay/dashboard'
 alias docs='cd ~/workplace/razorpay/docs'
+alias crons='cd ~/workplace/razorpay/cron'
 
 # Gogogo
 alias gocodebase='cd ~/workplace/razorpay/api; sublime .;'
@@ -46,11 +47,6 @@ function rzp() {
     open "https://dashboard.razorpay.com/admin/entity/$1/live/$2"
   fi
 }
-# Usage:
-# zen 131947
-function zen() {
-  open "https://razorpay.zendesk.com/agent/tickets/$1"
-}
 # In case dashboard is reverted:
 # function merc() {
 #   open "https://dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
@@ -61,6 +57,17 @@ function zen() {
 # function rzp() {
 #   open "https://dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
 # }
+
+
+function splunk() {
+  open "https://splunk-mumbai.razorpay.com/en-US/app/search/search?q=search%20$1&earliest=-30d%40d&latest=now"
+}
+
+# Usage:
+# zen 131947
+function zen() {
+  open "https://razorpay.zendesk.com/agent/tickets/$1"
+}
 
 #
 # Notification and link for wercker pipelines
