@@ -4,6 +4,9 @@
 
 echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
 
+# For Mac
+echo files/bash_profile >> ~/.bash_profile
+
 which brew 1>&2
 # If brew isn't located, exit code is 1
 if [[ 1 = $? ]]

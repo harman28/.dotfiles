@@ -9,6 +9,11 @@ function source_if() {
   fi
 }
 
+#
+# Don't change this into a simple source_everything_in_dir
+# There may be reason to add files to the dir that we don't want to source.
+# Eg. hosts, bash_profile (for Mac)
+#
 # Order matters, as files will backreference functions
 #
 source_if ~/.dotfiles/files/bashrc.unix     # Unix tools
