@@ -31,11 +31,14 @@ function is_git_dir() {
 function git_branch() {
   git rev-parse --abbrev-ref HEAD 2> /dev/null
 }
-# alias gpo="git push origin $(git_branch)"
 function gpo() {
   CURRENT_BRANCH=$(git_branch)
   git push origin $CURRENT_BRANCH
   listen_for_wercker_build $CURRENT_BRANCH
+}
+function gpl() {
+  CURRENT_BRANCH=$(git_branch)
+  git pull origin $CURRENT_BRANCH
 }
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)

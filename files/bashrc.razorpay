@@ -220,6 +220,41 @@ function rzp_api_check() {
   fi
 }
 
+#
+# See a file on Github master
+# Useful for sharing code on Slack
+#
+# Usage:
+# rzp_master app/Services/ApiServiceProvider.php
+function rzp_master() {
+  open "https://github.com/razorpay/api/blob/master/$1"
+}
+
+#
+# See a commit on Github
+# Useful for checking the circumstances under which a commit was made
+# TODO: Probably useful to see the PR too, will need to add that.
+#
+# Usage:
+# rzp_commit 8749d752a41
+function rzp_commit() {
+  open "https://github.com/razorpay/api/commit/$1"
+}
+
+#
+# Open all (seemingly) useful Jira dashboards
+#
+# Jira is stupid and complex and sometimes you just need to
+# see every possible dashboard to get what you want
+function jira() {
+  # Useful for: Planning
+  open "https://razorpay.atlassian.net/secure/RapidBoard.jspa?rapidView=23&projectKey=GL&view=planning&quickFilter=45"
+  # Useful for: Updating issue status and logging work
+  open "https://razorpay.atlassian.net/secure/RapidBoard.jspa?rapidView=23&projectKey=GL&quickFilter=45"
+  # Useful for: Nothing. Can see where you stand this sprint, I guess.
+  open "https://razorpay.atlassian.net/secure/Dashboard.jspa?selectPageId=10103"
+}
+
 #reach office and be lazy immediately
 function gorazorpay_gogogo(){
   gocodebase
