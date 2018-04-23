@@ -11,8 +11,8 @@ You're done.
 
 Want a nice hosts file that blocks a bunch of ads?
 ```sh
-> sudo ln -s ~/.dotfiles/files/hosts /etc/hosts
-> # sudo cat ~/.dotfiles/files/hosts >> /etc/hosts
+> sudo ln -s ~/.dotfiles/extra/hosts /etc/hosts
+> # sudo cat ~/.dotfiles/extra/hosts >> /etc/hosts
 ```
 
 For the full setup, do this instead

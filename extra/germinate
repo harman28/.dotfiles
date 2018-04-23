@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+#
+# Hosting your dotfiles on Github is fine, but when you get a new machine, how
+# do you fetch these dotfiles? You'll need to install git. If it's a Mac, the
+# simplest way to do that is to install homebrew. Installing homebrew is
+# well-documented and dependency-free, since OSX comes with Ruby installed...
+#
+# Step 1: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# Step 2: brew install git
+# Step 3: git clone https://github.com/harman28/.dotfiles.git ~/.dotfiles
+#
+# ...but that's still 2 things you need to install before you can fetch the
+# stuff that is supposed to make your life easy, and one of them is hard to
+# memorize. Wouldn't it be cool to be able to just open your new device, and
+# install and run just one script that does all of the above for you?
+#
+# A ruby gem with an executable that's published to rubygems.org is probably the
+# simplest way to put out a publically accessible personal setup script. OSX has
+# the `gem` executable, so you could conceivably boot your new Mac, then run
+# 'gem install myTotallyPersonalSetupScript' and you're done.
+#
+# Note: Of course, you're not _really_ done. You've installed your script as an
+# executable gem, but you still need to run it. It's still 2 steps!
+# There might be a way around this (post install hooks), but I'm still reading
+# up on those. From what I can tell, ruby gems don't natively support hooks like
+# that, but there is support for building extensions (cross platform stuff). So
+# it's possible to put all your post-install hook code in extconf.rb, register
+# an extension for your gem, then make it so that `make intall` actually results
+# in a useless Makefile getting created. See ref links for more info.
+#
+# Refs:
+# 1. http://guides.rubygems.org/gems-with-extensions/
+# 2. http://www.rubydoc.info/gems/zerg_support/0.1.6/Zerg%2FSupport%2FGems.emulate_extension_install
+# 3. http://blog.costan.us/2008/11/post-install-post-update-scripts-for.html
+#
+# First attempt at something that will install brew, git, and then clone the repo
+# TODO:
+# - Add gemspec for this, include only this file, and call it an executable
+# - Add an extension, move everything to extconf.rb, remove the executable
+#
+require 'net/http'
+require 'uri'
+
+puts "Downloading Brew Installer"
+uri = URI.parse('https://raw.githubusercontent.com/Homebrew/install/master/install')
+req = Net::HTTP::Get.new(uri)
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+install_brew=http.request(req).body
+
+puts "Installing brew"
+eval install_brew
+
+puts "Installing git"
+system('brew install git')
+
+# TODO: Auth
+puts "Cloning dot files"
+system('git clone https://github.com/harman28/.dotfiles.git ~/.dotfiles')

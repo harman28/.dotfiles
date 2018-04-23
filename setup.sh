@@ -5,7 +5,9 @@
 echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
 
 # For Mac
-echo files/bash_profile >> ~/.bash_profile
+if [ $(uname) == 'Darwin' ]; then
+  echo extra/bash_profile >> ~/.bash_profile
+fi
 
 which brew 1>&2
 # If brew isn't located, exit code is 1
