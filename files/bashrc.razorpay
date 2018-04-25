@@ -106,6 +106,16 @@ function werck_me_up() {
   # osascript -e "display notification \"Pipeline $result\" with title \"$result!\""
 }
 
+#
+# Takes branch name as argument and starts a
+# background process to poll wercker for status
+#
+# Useful to attach at the end of your `git push`
+# alias so you don't have to type it each time.
+# See `gpo`
+#
+# Usage:
+# listen_for_wercker_build branch_name
 function listen_for_wercker_build() {
   directory=${PWD##*/}
   if [[ $directory != 'api' ]]

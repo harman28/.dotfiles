@@ -88,6 +88,11 @@ function gco_date() {
 }
 
 # Only run this for small PRs
+#
+# Usage:
+# Checkout to the branch that's had its PR outdated.
+# Call function and watch for conflicts.
+# Confirm when prompted
 function git_rebase_force() {
   if [[ $# -eq 1 ]]
   then
