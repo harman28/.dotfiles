@@ -42,7 +42,7 @@ function gpl() {
 }
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
-  echo "WARNING: You're sure, right?"
+  echolor yellow "WARNING: You're sure, right?"
   confirm && git push origin $CURRENT_BRANCH --force
   listen_for_wercker_build $CURRENT_BRANCH
 }
@@ -113,8 +113,8 @@ function git_rebase_force() {
     echo "Rebasing $TARGET_BRANCH"
     git rebase master
     echo 'Branch rebased'
-    echo 'WARNING: Force pushing is dangerous, and this script'\
-         "doesn't bother checking if the rebase went as expected."
+    echolor 'WARNING: Force pushing is dangerous, and this script'\
+            "doesn't bother checking if the rebase went as expected."
     confirm && git push origin $TARGET_BRANCH --force
     listen_for_wercker_build $TARGET_BRANCH
   fi
