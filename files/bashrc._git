@@ -20,7 +20,6 @@ alias gb='git branch'
 alias gcm='git commit -m'
 alias gco='git checkout'
 alias gst='git stash'
-alias gp='git pull'
 alias gpom='git pull origin master'
 alias gmm='git merge master'
 

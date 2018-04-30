@@ -36,15 +36,32 @@ function pay() {
   open "https://dashboard.razorpay.com/admin/entity/payment/live/$1"
 }
 # Usage:
-# rzp order
-# rzp order order_9FBg71aeZmprMm
-# rzp order 9FBg71aeZmprMm
+# See all refunds
+# rzp refund
+#
+# See specific refund
+# rzp refund rfnd_9FBg71aeZmprMm
+# rzp refund 9FBg71aeZmprMm
+#
+# Query refunds by payment_id
+# rzp refund p pay_836xKi6tq0swau
+#
+# Query refunds by merchant_id
+# rzp refund m 5ubLZpACTmD8D4
 function rzp() {
-  if [[ $# -eq 1 ]]
+  if [[ $# -eq 2 ]]
   then
-    open "https://dashboard.razorpay.com/admin/entities/live/$1"
-  else
     open "https://dashboard.razorpay.com/admin/entity/$1/live/$2"
+  elif [[ $# -eq 3 ]]
+  then
+    query='merchant_id'
+    if [[ $2 == 'p' ]]
+    then
+      query='payment_id'
+    fi
+    open "https://dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
+  else
+    open "https://dashboard.razorpay.com/admin/entities/live/$1"
   fi
 }
 # In case dashboard is reverted:
