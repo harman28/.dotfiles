@@ -35,6 +35,14 @@ function echolor() {
   echo -e "${!code}${@:2}${COLOUR_CODE_NC}"
 }
 
+# https://stackoverflow.com/a/8574392/5612201
+function array_contains() {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
 # How  did anyone function without this?
 alias diff='colordiff'
 

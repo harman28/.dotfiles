@@ -21,6 +21,7 @@ alias gcm='git commit -m'
 alias gco='git checkout'
 alias gst='git stash'
 alias gpom='git pull origin master'
+alias gfo='git fetch origin'
 alias gmm='git merge master'
 
 # Makes my git prompt beautiful
@@ -117,8 +118,8 @@ function git_rebase_force() {
     echo "Rebasing $TARGET_BRANCH"
     git rebase master
     echo 'Branch rebased'
-    echolor 'WARNING: Force pushing is dangerous, and this script'\
-            "doesn't bother checking if the rebase went as expected."
+    echolor red 'WARNING: Force pushing is dangerous, and this script'\
+                "doesn't bother checking if the rebase went as expected."
     confirm && git push origin $TARGET_BRANCH --force
     listen_for_wercker_build $TARGET_BRANCH
   fi

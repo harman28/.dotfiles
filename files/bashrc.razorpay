@@ -225,26 +225,19 @@ function rzp_api_check() {
   else
     limit=$1
   fi
-  expected_commit=$(curl -s https://api.razorpay.com/commit.txt)
-  unexpected_commit=$expected_commit
-  fault=0
+  first_commit=$(curl -s https://api.razorpay.com/commit.txt)
+  observed_commits=($first_commit)
   for ((n=0;n<$limit;n++))
   do
     new_commit=$(curl -s https://api.razorpay.com/commit.txt)
-    if [[ "$new_commit" != "$expected_commit" ]]
+    array_contains new_commit "${observed_commits[@]}"
+    if [[ "$?" != 0 ]]
     then
-      ((fault++))
-      unexpected_commit=$new_commit
+      observed_commits+=($commit)
     fi
   done
-  failure=$((100*$fault/$limit))
-  echo "Tried $limit times. Got the wrong commit $fault times."
-  if [[ "$unexpected_commit" != "$expected_commit" ]]
-  then
-    echo "That's $failure%"
-    echo $expected_commit
-    echo $unexpected_commit
-  fi
+  echo "Tried $limit times. Got the following commits:"
+  echo "${observed_commits[@]}"
 }
 
 #
