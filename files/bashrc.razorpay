@@ -217,7 +217,7 @@ function clear_log() {
 
 alias clear_cache="redis-cli flushall"
 
-# Checks if Rzp Api is serving the same commit on all instances
+# Checks if Rzp Api is serving the same commit consistently
 function rzp_api_check() {
   if [[ $# -eq 0 ]]
   then
@@ -230,14 +230,14 @@ function rzp_api_check() {
   for ((n=0;n<$limit;n++))
   do
     new_commit=$(curl -s https://api.razorpay.com/commit.txt)
-    array_contains new_commit "${observed_commits[@]}"
+    array_contains $new_commit "${observed_commits[@]}"
     if [[ "$?" != 0 ]]
     then
-      observed_commits+=($commit)
+      observed_commits+=($new_commit)
     fi
   done
   echo "Tried $limit times. Got the following commits:"
-  echo "${observed_commits[@]}"
+  printf "%s\n" "${observed_commits[@]}"
 }
 
 #
