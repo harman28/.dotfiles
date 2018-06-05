@@ -275,6 +275,18 @@ function jira() {
   open "https://razorpay.atlassian.net/secure/Dashboard.jspa?selectPageId=10103"
 }
 
+# Creates a Luhn-valid 16-digit card number from a given prefix
+# This took 45 minutes but by God it was worth it
+#
+# Usage:
+# card 219219
+# > 5192190000000006
+function card() {
+  ruby -e "puts $1.to_s.ljust(16,'0').to_i+$1.to_s.ljust(15,'0').split('').map(&:to_i)
+  .each_with_index.map{|x,i|(2-i%2)*x}.map{|i|(i/10+1)%2*i+(i/10)*i.to_s
+  .split('').map(&:to_i).inject(:+)}.inject(:+)*9%10"
+}
+
 #reach office and be lazy immediately
 function gorazorpay_gogogo(){
   gocodebase
