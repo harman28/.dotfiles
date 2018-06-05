@@ -21,7 +21,6 @@ alias gcm='git commit -m'
 alias gco='git checkout'
 alias gst='git stash'
 alias gpom='git pull origin master'
-alias gfo='git fetch origin'
 alias gmm='git merge master'
 
 # Makes my git prompt beautiful
@@ -40,11 +39,14 @@ function gpl() {
   CURRENT_BRANCH=$(git_branch)
   git pull origin $CURRENT_BRANCH
 }
+function gfo() {
+  git fetch origin $1
+  git checkout $1
+}
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
   echolor yellow "WARNING: You're sure, right?"
-  confirm && git push origin $CURRENT_BRANCH --force
-  listen_for_wercker_build $CURRENT_BRANCH
+  confirm && git push origin $CURRENT_BRANCH --force && listen_for_wercker_build $CURRENT_BRANCH
 }
 
 function git_branch_paran() {
@@ -120,8 +122,7 @@ function git_rebase_force() {
     echo 'Branch rebased'
     echolor red 'WARNING: Force pushing is dangerous, and this script'\
                 "doesn't bother checking if the rebase went as expected."
-    confirm && git push origin $TARGET_BRANCH --force
-    listen_for_wercker_build $TARGET_BRANCH
+    confirm && git push origin $TARGET_BRANCH --force && listen_for_wercker_build $TARGET_BRANCH
   fi
 }
 
