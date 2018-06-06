@@ -160,6 +160,13 @@ function deploy() {
      -d "{\"pipelineId\":\"$WERCKER_PROD_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
      "https://app.wercker.com/api/v3/runs" | jq
 }
+function canary() {
+  curl -s -X POST \
+     -H "Authorization: Bearer $WERCKER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "{\"pipelineId\":\"$WERCKER_PROD_API_CANARY_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
+     "https://app.wercker.com/api/v3/runs" | jq
+}
 function beta() {
   curl -s -X POST \
      -H "Authorization: Bearer $WERCKER_TOKEN" \

@@ -75,6 +75,20 @@ function lookup(){
   ip $1
 }
 
+# Wrapper to fetch env variables.
+# It's annoying when a script fails because a var isn't set, since these errors
+# are usually silent. This just puts out a warning when accessing an empty var.
+#
+# Usage:
+# var=$(envar VARIABLE_NAME)
+function envar() {
+  var=${!1}
+  if [ -z $var ]; then
+    echolor red "WARNING: Env var $1 hasn't been set"
+  fi
+  echo $var
+}
+
 # If you're checking path for something, I suspect
 # what you really want to do is copy it somewhere else.
 # Let me strip that newline for you.

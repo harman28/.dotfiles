@@ -39,7 +39,7 @@ function unmountvm(){
 
 # Load RVM into a shell session *as a function*
 # Crazy, right?
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # ...I don't actually remember what I needed this for.
 alias virtualenv3='~/Library/Python/3.4/bin/virtualenv'
