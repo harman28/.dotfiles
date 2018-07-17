@@ -6,6 +6,7 @@
 alias razorpay='cd ~/workplace/razorpay'
 alias api='cd ~/workplace/razorpay/api'
 alias dashboard='cd ~/workplace/razorpay/dashboard'
+alias subscriptions='cd ~/workplace/razorpay/subscriptions'
 alias docs='cd ~/workplace/razorpay/docs'
 alias crons='cd ~/workplace/razorpay/cron'
 
@@ -55,10 +56,17 @@ function rzp() {
   elif [[ $# -eq 3 ]]
   then
     query='merchant_id'
-    if [[ $2 == 'p' ]]
-    then
-      query='payment_id'
-    fi
+    case "$2" in
+
+      'p') query='payment_id'
+           ;;
+
+      'e') query='entity_id'
+           ;;
+
+      '*') query='merchant_id'
+           ;;
+    esac
     open "https://dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
   else
     open "https://dashboard.razorpay.com/admin/entities/live/$1"
@@ -179,6 +187,13 @@ function charlie() {
      -H "Authorization: Bearer $WERCKER_TOKEN" \
      -H "Content-Type: application/json" \
      -d "{\"pipelineId\":\"$WERCKER_CHARLIE_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
+     "https://app.wercker.com/api/v3/runs" | jq
+}
+function dark() {
+  curl -s -X POST \
+     -H "Authorization: Bearer $WERCKER_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d "{\"pipelineId\":\"$WERCKER_DARK_API_PIPELINE_ID\",\"sourceRunId\":\"$1\"}" \
      "https://app.wercker.com/api/v3/runs" | jq
 }
 
