@@ -5,7 +5,7 @@
 # Tennis DB
 tennis(){
     cd ~/workplace/tennis
-    psql atpdatabase2017
+    psql atpdatabase
 }
 
 # Koinex
