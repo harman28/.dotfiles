@@ -189,7 +189,7 @@ function drone_alert() {
   while : ;
   do
     response=$(drone build info razorpay/$directory $1)
-    echo $response | grep 'Status' | grep -qv 'running'
+    echo $response | grep 'Status' | egrep -qv 'running|pending'
     [[ $? -ne 0 ]] || break
     sleep 10
   done
