@@ -39,7 +39,7 @@ function poll() {
 
     while [[ $? -ne 0 ]]
     do
-      sleep 1
+      sleep 10
       ( eval $cmd ) && notify "Done!" "Polling complete" 1>&2 2>/dev/null
     done
   fi

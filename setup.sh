@@ -39,6 +39,7 @@ brew_if mutt
 brew_if lynx
 brew_if ncdu
 brew_if terminal-notifier
+brew_if fzf
 gem install mailqun
 
 add_to_executables() {

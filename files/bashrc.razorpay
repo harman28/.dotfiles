@@ -28,13 +28,13 @@ ulimit -S -n 2700
 # Usage:
 # merc 8iMbVsEnv1HCo0
 function merc() {
-  open "https://dashboard.razorpay.com/admin/entity/merchant/live/$1"
+  open "https://admin-dashboard.razorpay.com/admin/entity/merchant/live/$1"
 }
 # Usage:
 # pay pay_9FBg7zvrIUTynB
 # pay 9FBg7zvrIUTynB
 function pay() {
-  open "https://dashboard.razorpay.com/admin/entity/payment/live/$1"
+  open "https://admin-dashboard.razorpay.com/admin/entity/payment/live/$1"
 }
 # Usage:
 # See all refunds
@@ -52,7 +52,7 @@ function pay() {
 function rzp() {
   if [[ $# -eq 2 ]]
   then
-    open "https://dashboard.razorpay.com/admin/entity/$1/live/$2"
+    open "https://admin-dashboard.razorpay.com/admin/entity/$1/live/$2"
   elif [[ $# -eq 3 ]]
   then
     query='merchant_id'
@@ -67,20 +67,20 @@ function rzp() {
       '*') query='merchant_id'
            ;;
     esac
-    open "https://dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
+    open "https://admin-dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
   else
-    open "https://dashboard.razorpay.com/admin/entities/live/$1"
+    open "https://admin-dashboard.razorpay.com/admin/entities/live/$1"
   fi
 }
 # In case dashboard is reverted:
 # function merc() {
-#   open "https://dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
+#   open "https://admin-dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
 # }
 # function pay() {
-#   open "https://dashboard.razorpay.com/admin#/app/payments/live/$1"
+#   open "https://admin-dashboard.razorpay.com/admin#/app/payments/live/$1"
 # }
 # function rzp() {
-#   open "https://dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
+#   open "https://admin-dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
 # }
 
 
@@ -92,6 +92,18 @@ function splunk() {
 # zen 131947
 function zen() {
   open "https://razorpay.zendesk.com/agent/tickets/$1"
+}
+
+function listen_for_builds() {
+  LISTEN_BRANCH=$1
+  directory=${PWD##*/}
+  case "$directory" in
+    'api') listen_for_wercker_build $LISTEN_BRANCH; listen_for_drone_build $LISTEN_BRANCH
+          ;;
+
+    'subscriptions') listen_for_drone_build $LISTEN_BRANCH
+          ;;
+  esac
 }
 
 #
@@ -159,6 +171,75 @@ function listen_for_wercker_build() {
   echo -n "Tracking wercker pipeline: "
   echo $wercker_run_id
   werck_me_up $wercker_run_id &
+}
+
+#
+# Notification and link for drone pipelines
+#
+# Usage:
+# drone_alert $BUILD_NUM
+# drone_alert 140
+#
+# Dependency:
+# Needs terminal-notifier for pretty notifications.
+# You can still use Applescript without it, but what's the point, just keep refreshing the tab na then.
+#
+function drone_alert() {
+  directory=${PWD##*/}
+  while : ;
+  do
+    response=$(drone build info razorpay/$directory $1)
+    echo $response | grep 'Status' | grep -qv 'running'
+    [[ $? -ne 0 ]] || break
+    sleep 10
+  done
+
+  result=$(echo $response | cut -d ' ' -f 4 | tr -d '\n')
+  branch=$(echo $response | cut -d ' ' -f 10 | tr -d '\n')
+  pipeline=$(echo $response | cut -d ' ' -f 6 | tr -d '\n')
+  url="https://drone.razorpay.com/razorpay/$directory/$1"
+  case "$result" in
+    'success') result='passed'
+          ;;
+
+    'failure') result='failed'
+          ;;
+  esac
+  icon="https://raw.githubusercontent.com/wantedly/step-pretty-slack-notify/master/icons/$result.jpg"
+
+  # Needs terminal-notifier
+  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" \
+                    -title "$result!" \
+                    -open "$url" \
+                    -sound Ping \
+                    -appIcon $icon
+
+  # Applescript alternative, no link, no icon, and a stupid sound
+  # osascript -e "display notification \"Pipeline $result\" with title \"$result!\""
+}
+
+#
+# Takes branch name as argument and starts a
+# background process to poll drone for status
+#
+# Useful to attach at the end of your `git push`
+# alias so you don't have to type it each time.
+# See `gpo`
+#
+# Usage:
+# listen_for_wercker_build branch_name
+function listen_for_drone_build() {
+  directory=${PWD##*/}
+  if [[ $directory != 'api' && $directory != 'subscriptions' ]]
+  then
+    echo 'Listening not available for this directory.'
+    return
+  fi
+  sleep 3
+  BUILD_NUM=$(drone build ls razorpay/$directory --branch $1 | head -n 1 | cut -b 13-)
+  echo -n "Tracking drone build: "
+  echo $BUILD_NUM
+  drone_alert $BUILD_NUM &
 }
 
 function deploy() {
@@ -232,6 +313,7 @@ function winky() {
 # Clears all logged info in razorpay/api
 function clear_log() {
   rm /Users/harmansingh/workplace/razorpay/api/storage/logs/localhost-trace-*.log
+  rm /Users/harmansingh/workplace/razorpay/subscriptions/storage/logs/*-trace.log
   > /Users/harmansingh/workplace/razorpay/api/storage/logs/laravel.log
   > /Users/harmansingh/workplace/razorpay/api/storage/logs/cron.log
   > /Users/harmansingh/workplace/razorpay/api/storage/logs/instance.json
@@ -307,6 +389,13 @@ function card() {
   ruby -e "puts $1.to_s.ljust(16,'0').to_i+$1.to_s.ljust(15,'0').split('').map(&:to_i)
   .each_with_index.map{|x,i|(2-i%2)*x}.map{|i|(i/10+1)%2*i+(i/10)*i.to_s
   .split('').map(&:to_i).inject(:+)}.inject(:+)*9%10"
+}
+
+# God knows if this works
+function concierge() {
+  curl --header "Cookie: $CONCIERGE_COOKIE" \
+       --data "rule_type=https&access=1&email=&expiry=21600&_token=$CONCIERGE_TOKEN" \
+       'https://concierge.razorpay.com/manage/sg-53c6323a'
 }
 
 #reach office and be lazy immediately

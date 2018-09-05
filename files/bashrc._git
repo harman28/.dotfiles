@@ -33,7 +33,7 @@ function git_branch() {
 function gpo() {
   CURRENT_BRANCH=$(git_branch)
   git push origin $CURRENT_BRANCH
-  listen_for_wercker_build $CURRENT_BRANCH
+  listen_for_builds $CURRENT_BRANCH
 }
 function gpl() {
   CURRENT_BRANCH=$(git_branch)
@@ -46,7 +46,7 @@ function gfo() {
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
   echolor yellow "WARNING: You're sure, right?"
-  confirm && git push origin $CURRENT_BRANCH --force && listen_for_wercker_build $CURRENT_BRANCH
+  confirm && git push origin $CURRENT_BRANCH --force && listen_for_builds $CURRENT_BRANCH
 }
 
 function git_branch_paran() {
@@ -122,7 +122,7 @@ function git_rebase_force() {
     echo 'Branch rebased'
     echolor red 'WARNING: Force pushing is dangerous, and this script'\
                 "doesn't bother checking if the rebase went as expected."
-    confirm && git push origin $TARGET_BRANCH --force && listen_for_wercker_build $TARGET_BRANCH
+    confirm && git push origin $TARGET_BRANCH --force && listen_for_builds $TARGET_BRANCH
   fi
 }
 
@@ -139,9 +139,15 @@ function merge() {
   then
     merge_method=$2
   fi
+  REPO='api'
+  directory=${PWD##*/}
+  if [[ $directory == 'subscriptions' ]]
+  then
+    REPO='subscriptions'
+  fi
   curl -s -X PUT \
        -H "Authorization: token $GUT_TOKEN" \
        -H "Content-Type: application/json" \
        -d "{\"merge_method\":\"$merge_method\"}" \
-       "https://api.github.com/repos/$GUT_DEFAULT_OWNER/$GUT_DEFAULT_REPO/pulls/$1/merge" | jq
+       "https://api.github.com/repos/$GUT_DEFAULT_OWNER/$REPO/pulls/$1/merge" | jq
 }
