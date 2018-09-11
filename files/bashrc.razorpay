@@ -362,7 +362,13 @@ function rzp_master() {
 # Usage:
 # rzp_commit 8749d752a41
 function rzp_commit() {
-  open "https://github.com/razorpay/api/commit/$1"
+  directory=${PWD##*/}
+  repo='api'
+  if [[ $directory = 'subscriptions' ]]
+  then
+    repo='subscriptions'
+  fi
+  open "https://github.com/razorpay/$repo/commit/$1"
 }
 
 #

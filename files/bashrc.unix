@@ -145,7 +145,7 @@ function hunt(){
 }
 
 # Find out who you want to kill
-alias wtf='ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk +4 | head | cut -c -181'
+alias wtf='ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk 4 | head | cut -c -181'
 
 # Host directories
 alias webserver='python -m SimpleHTTPServer'
