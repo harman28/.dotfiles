@@ -133,7 +133,7 @@ function werck_me_up() {
   icon="https://raw.githubusercontent.com/wantedly/step-pretty-slack-notify/master/icons/$result.jpg"
 
   # Needs terminal-notifier
-  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" \
+  terminal-notifier -message "CI: Wercker Pipeline: $pipeline Branch: $branch" \
                     -title "$result!" \
                     -open "$url" \
                     -sound Ping \
@@ -208,7 +208,7 @@ function drone_alert() {
   icon="https://raw.githubusercontent.com/wantedly/step-pretty-slack-notify/master/icons/$result.jpg"
 
   # Needs terminal-notifier
-  terminal-notifier -message "Pipeline: $pipeline Branch: $branch" \
+  terminal-notifier -message "CI: Drone Pipeline: $pipeline Branch: $branch" \
                     -title "$result!" \
                     -open "$url" \
                     -sound Ping \

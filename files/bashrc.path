@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Add RVM to PATH for scripting
-PATH="${PATH}:$HOME/.rvm/bin"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Setting PATH for Python 3.4
 PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.4/bin"
@@ -27,5 +23,20 @@ PATH="${PATH}:/usr/local/Cellar/php70/7.0.12_5/bin"
 export GOPATH="${HOME}/workplace/go"
 PATH="${PATH}:~/workplace/go/bin"
 PATH="${PATH}:/usr/local/opt/go/libexec/bin"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+PATH="${PATH}:$HOME/.rvm/bin"
+
+# This is giving some weird error that I don't really want to look into right now.
+#
+# ###############################################################################################################
+# Warning! PATH is not properly set up, /Users/harmansingh/.rvm/gems/ruby-2.3.0/bin is not at first place.
+#          Usually this is caused by shell initialization files. Search for PATH=... entries.
+#          You can also re-add RVM to your profile by running: rvm get stable --auto-dotfiles
+#          To fix it temporarily in this shell session run: rvm use ruby-2.3.0
+#          To ignore this error add rvm_silence_path_mismatch_check_flag=1 to your ~/.rvmrc file.
+# ###############################################################################################################
+#
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 export PATH

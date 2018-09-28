@@ -32,7 +32,8 @@ function git_branch() {
 }
 function gpo() {
   CURRENT_BRANCH=$(git_branch)
-  git push origin $CURRENT_BRANCH
+  git push origin $CURRENT_BRANCH 2>&1 | tee /tmp/git_push_stderr_output
+  maybe_open_a_pr
   listen_for_builds $CURRENT_BRANCH
 }
 function gpl() {
@@ -46,9 +47,18 @@ function gfo() {
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
   echolor yellow "WARNING: You're sure, right?"
-  confirm && git push origin $CURRENT_BRANCH --force && listen_for_builds $CURRENT_BRANCH
+  confirm && (git push origin $CURRENT_BRANCH --force 2>&1 | tee /tmp/git_push_stderr_output)
+  maybe_open_a_pr
+  listen_for_builds $CURRENT_BRANCH
 }
-
+function maybe_open_a_pr() {
+  grep 'Create a pull request for' /tmp/git_push_stderr_output
+  # New branch, open a PR
+  if [[ 0 = $? ]]; then
+    url=$(grep -Eo 'https://github.com.*pull/new/[a-zA-Z/-_]+' /tmp/git_push_stderr_output)
+    open $url
+  fi
+}
 function git_branch_paran() {
   is_git_dir && echo "(`git_branch`)"
 }
