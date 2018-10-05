@@ -6,7 +6,7 @@
 # Calling this with cron expression * 10-20 * * 1-5
 #
 
-LOG_FILE=/Users/harmansingh/.dotfiles/extra/hunt_at_rzp.log
+HUNT_LOG_FILE=/Users/harmansingh/.dotfiles/extra/scripts/hunt_at_rzp.log
 
 # Evil apps
 declare -a rzp_blacklist=('Popcorn' 'TunnelBear')
@@ -24,7 +24,7 @@ function notify() {
 }
 
 function log() {
-  printf "`date`: $1\n" >> $LOG_FILE
+  printf "`date`: $1\n" >> $HUNT_LOG_FILE
   notify "Auto-hunt @ rzp" "$1"
 }
 
