@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# Script to be run during office hours.
+# Find programs that shouldn't be running on office wifi, and kill them.
+#
+# Calling this with cron expression * 10-20 * * 1-5
+#
+
+LOG_FILE=/Users/harmansingh/.dotfiles/extra/hunt_at_rzp.log
+
+# Evil apps
+declare -a rzp_blacklist=('Popcorn' 'TunnelBear')
+
+function ssid_name() {
+  # Usually just en1 or something
+  wlan_interface_name=$(/sbin/ifconfig | grep "192.168" -B 3 | head -n 1 | cut -d ':' -f 1)
+  # Complete SSID
+  /usr/sbin/networksetup -getairportnetwork $wlan_interface_name | awk -F": " '{print $2}'
+}
+
+# Popup in notification center
+function notify() {
+  /usr/local/bin/terminal-notifier -message "$2" -title "$1" -sound Ping
+}
+
+function log() {
+  printf "`date`: $1\n" >> $LOG_FILE
+  notify "Auto-hunt @ rzp" "$1"
+}
+
+# Gently murder the nice apps
+function close_silently() {
+  if [[ -n $(pgrep $1) ]]
+  then
+    kill $(pgrep $1)
+    log "Closed $app_regex"
+  fi
+}
+
+wifi_name=$(ssid_name)
+
+if [[ $wifi_name != "Razorpay"* ]]; then
+  exit 0
+fi
+
+for app_regex in "${rzp_blacklist[@]}"
+do
+  close_silently $app_regex
+done

@@ -64,6 +64,8 @@ function WIFI_RESET() {
 }
 
 function ssid_name() {
+  # Usually just en1 or something
   wlan_interface_name=$(ifconfig | grep "192.168" -B 3 | head -n 1 | cut -d ':' -f 1)
+  # Complete SSID
   networksetup -getairportnetwork $wlan_interface_name | awk -F": " '{print $2}'
 }

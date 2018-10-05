@@ -2,3 +2,12 @@
 
 # Secrets and stuff
 files/bashrc.vars
+
+#
+# Using this repo to house and run some scripts as well
+# Most relevant place for the logs is right next to the scripts,
+# but I don't want that crap in the git repo
+#
+# TODO: Consider logging to /var/log instead
+#
+*.log
