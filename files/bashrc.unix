@@ -145,7 +145,14 @@ function hunt(){
 }
 
 # Find out who you want to kill
-alias wtf='ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk 4 | head | cut -c -181'
+function wtf() {
+  WTF_LIMIT=10
+  if [[ $# -eq 1 ]];
+  then
+    WTF_LIMIT=$1
+  fi
+  ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk 4 | head -n $WTF_LIMIT| cut -c -181
+}
 
 # Host directories
 alias webserver='python -m SimpleHTTPServer'
