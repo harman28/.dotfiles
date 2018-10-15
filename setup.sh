@@ -40,6 +40,7 @@ brew_if lynx
 brew_if ncdu
 brew_if terminal-notifier
 brew_if fzf
+brew_if jq
 gem install mailqun
 
 add_to_executables() {
@@ -64,7 +65,7 @@ add_to_executables srt https://raw.githubusercontent.com/riobard/srt.py/master/s
 # A bash executable that runs sublime with the --wait option
 # Perfect for using as your default editor
 # Assumes the sublime executable is called 'sublime' and not 'subl'
-echo -e '#!'"/bin/sh\nsublime --wait \$*" > ~/workplace/executables/sublime_wait
+cp ~/.dotfiles/extra/scripts/sublime_wait ~/workplace/executables/
 chmod +x ~/workplace/executables/sublime_wait
 
 # Set up the tennis DB
