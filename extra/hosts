@@ -6,17 +6,14 @@
 #
 # localhost is used to configure the loopback interface
 # when the system is booting.  Do not change this entry.
-127.0.0.1       localhost
+127.0.0.1 localhost api.razorpay.dum dashboard.razorpay.dum reporting.razorpay.dum
 255.255.255.255 broadcasthost
-::1             localhost
+# ::1             localhost
 
-# Local servers, in dev
-127.0.0.1 api.razorpay.dev
-127.0.0.1 dashboard.razorpay.dev
-
-# IP addresses I just need easier
-# access to but won't buy a domain
-139.59.39.63 thatharmansingh.com
+# IP addresses I just need easier access to
+# but won't buy a domain
+# Edit: I did buy it, lol
+# 139.59.39.63 thatharmansingh.com
 
 # Sites I want to block
 # Mostly ad services I never want to see
@@ -24,6 +21,9 @@
 # Mackeeper
 0.0.0.0 seemlessfixing.tech
 0.0.0.0 mackeeper.com
+
+# Stupid shit
+0.0.0.0 express.co.uk
 
 # Spotify ad domains
 0.0.0.0 adclick.g.doublecklick.net
@@ -39,7 +39,6 @@
 0.0.0.0 crashdump.spotify.com
 0.0.0.0 d2gi7ultltnc2u.cloudfront.net
 0.0.0.0 d3rt1990lpmkn.cloudfront.net
-0.0.0.0 desktop.spotify.com
 0.0.0.0 doubleclick.net
 0.0.0.0 ds.serving-sys.com
 0.0.0.0 googleadservices.com
@@ -49,7 +48,6 @@
 0.0.0.0 log.spotify.com
 0.0.0.0 media-match.com
 0.0.0.0 omaze.com
-0.0.0.0 open.spotify.com
 0.0.0.0 pagead46.l.doubleclick.net
 0.0.0.0 pagead2.googlesyndication.com
 0.0.0.0 partner.googleadservices.com
