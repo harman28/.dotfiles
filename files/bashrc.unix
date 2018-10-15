@@ -29,11 +29,16 @@ COLOUR_CODE_NC='\033[0m'
 # Usage:
 # echolor yellow "this is a gentle warning"
 # echolor red this is a warning
-function echolor() {
-  upcase=$(echo $1 | awk '{print toupper($0)}')
-  code="COLOUR_CODE_$upcase"
-  echo -e "${!code}${@:2}${COLOUR_CODE_NC}"
-}
+#
+# UPDATE: Removed now, in favour of the gem:
+# - https://rubygems.org/gems/echolor
+# - https://github.com/harman28/echolor/
+#
+# function echolor() {
+#   upcase=$(echo $1 | awk '{print toupper($0)}')
+#   code="COLOUR_CODE_$upcase"
+#   echo -e "${!code}${@:2}${COLOUR_CODE_NC}"
+# }
 
 # https://stackoverflow.com/a/8574392/5612201
 function array_contains() {

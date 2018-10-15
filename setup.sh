@@ -42,6 +42,7 @@ brew_if terminal-notifier
 brew_if fzf
 brew_if jq
 gem install mailqun
+gem install echolor
 
 add_to_executables() {
   if [[ ! -f ~/workplace/executables/$1 ]]
