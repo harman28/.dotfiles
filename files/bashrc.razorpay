@@ -235,7 +235,7 @@ function listen_for_drone_build() {
     echo 'Listening not available for this directory.'
     return
   fi
-  sleep 3
+  sleep 5
   BUILD_NUM=$(drone build ls razorpay/$directory --branch $1 | head -n 1 | cut -b 13-)
   echo -n "Tracking drone build: "
   echo $BUILD_NUM
@@ -351,7 +351,13 @@ function rzp_api_check() {
 # Usage:
 # rzp_master app/Services/ApiServiceProvider.php
 function rzp_master() {
-  open "https://github.com/razorpay/api/blob/master/$1"
+  directory=${PWD##*/}
+  repo='api'
+  if [[ $directory = 'subscriptions' ]]
+  then
+    repo='subscriptions'
+  fi
+  open "https://github.com/razorpay/$repo/blob/master/$1"
 }
 
 #
