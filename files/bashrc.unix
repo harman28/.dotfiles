@@ -40,7 +40,17 @@ COLOUR_CODE_NC='\033[0m'
 #   echo -e "${!code}${@:2}${COLOUR_CODE_NC}"
 # }
 
-# https://stackoverflow.com/a/8574392/5612201
+#
+# Usage:
+# array_contains $needle "${haystack[@]}"
+# if [[ "$?" == 0 ]]; then
+#   do_contains_thing
+# else
+#   do_other_thing
+# fi
+#
+# Source: https://stackoverflow.com/a/8574392/5612201
+#
 function array_contains() {
   local e match="$1"
   shift
@@ -53,6 +63,9 @@ alias diff='colordiff'
 
 # Ruby inline
 alias rube="ruby -e"
+
+# I keep having to check the time since epoch
+alias now="date +%s; date"
 
 # unix coin toss
 alias toss="rube 'p rand.round.zero? ? :heads : :tails'"

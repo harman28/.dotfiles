@@ -11,7 +11,11 @@ alias docs='cd ~/workplace/razorpay/docs'
 alias crons='cd ~/workplace/razorpay/cron'
 
 # Gogogo
-alias gocodebase='cd ~/workplace/razorpay/api; sublime .;'
+function gocodebase() {
+  repo=$(get_rzp_repo)
+  cd ~/workplace/razorpay/$repo
+  sublime .
+}
 
 # CLI
 alias tinker='api; php artisan tinker;'
@@ -22,6 +26,24 @@ alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filt
 
 #
 ulimit -S -n 2700
+
+DEFAULT_RZP_REPO='api'
+RZP_REPOS=(api subscriptions docs)
+#
+#  Seemed to be fetching and validating directory name in too many places.
+#  This fetches dir and checks it against a list, or else defaults to api.
+#  Good for utilities that can work on multiple projects, like listening.
+#
+function get_rzp_repo() {
+  repo=$DEFAULT_RZP_REPO
+  directory=${PWD##*/}
+  array_contains $directory "${RZP_REPOS[@]}"
+  if [[ "$?" == 0 ]]
+  then
+    repo=$directory
+  fi
+  echo $repo
+}
 
 # RZP Entities
 #
@@ -154,11 +176,6 @@ function werck_me_up() {
 # Usage:
 # listen_for_wercker_build branch_name
 function listen_for_wercker_build() {
-  directory=${PWD##*/}
-  if [[ $directory != 'api' ]]
-  then
-    return
-  fi
   sleep 1
   response=$(curl -G -s -X GET \
                    -H "Authorization: Bearer $WERCKER_TOKEN" \
@@ -185,10 +202,10 @@ function listen_for_wercker_build() {
 # You can still use Applescript without it, but what's the point, just keep refreshing the tab na then.
 #
 function drone_alert() {
-  directory=${PWD##*/}
+  repo=$(get_rzp_repo)
   while : ;
   do
-    response=$(drone build info razorpay/$directory $1)
+    response=$(drone build info razorpay/$repo $1)
     echo $response | grep 'Status' | egrep -qv 'running|pending'
     [[ $? -ne 0 ]] || break
     sleep 10
@@ -197,7 +214,7 @@ function drone_alert() {
   result=$(echo $response | cut -d ' ' -f 4 | tr -d '\n')
   branch=$(echo $response | cut -d ' ' -f 10 | tr -d '\n')
   pipeline=$(echo $response | cut -d ' ' -f 6 | tr -d '\n')
-  url="https://drone.razorpay.com/razorpay/$directory/$1"
+  url="https://drone.razorpay.com/razorpay/$repo/$1"
   case "$result" in
     'success') result='passed'
           ;;
@@ -229,14 +246,9 @@ function drone_alert() {
 # Usage:
 # listen_for_wercker_build branch_name
 function listen_for_drone_build() {
-  directory=${PWD##*/}
-  if [[ $directory != 'api' && $directory != 'subscriptions' ]]
-  then
-    echo 'Listening not available for this directory.'
-    return
-  fi
+  repo=$(get_rzp_repo)
   sleep 5
-  BUILD_NUM=$(drone build ls razorpay/$directory --branch $1 | head -n 1 | cut -b 13-)
+  BUILD_NUM=$(drone build ls razorpay/$repo --branch $1 | head -n 1 | cut -b 13-)
   echo -n "Tracking drone build: "
   echo $BUILD_NUM
   drone_alert $BUILD_NUM &
@@ -351,12 +363,7 @@ function rzp_api_check() {
 # Usage:
 # rzp_master app/Services/ApiServiceProvider.php
 function rzp_master() {
-  directory=${PWD##*/}
-  repo='api'
-  if [[ $directory = 'subscriptions' ]]
-  then
-    repo='subscriptions'
-  fi
+  repo=$(get_rzp_repo)
   open "https://github.com/razorpay/$repo/blob/master/$1"
 }
 
@@ -368,12 +375,7 @@ function rzp_master() {
 # Usage:
 # rzp_commit 8749d752a41
 function rzp_commit() {
-  directory=${PWD##*/}
-  repo='api'
-  if [[ $directory = 'subscriptions' ]]
-  then
-    repo='subscriptions'
-  fi
+  repo=$(get_rzp_repo)
   open "https://github.com/razorpay/$repo/commit/$1"
 }
 

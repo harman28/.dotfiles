@@ -22,6 +22,7 @@ alias gco='git checkout'
 alias gst='git stash'
 alias gpom='git pull origin master'
 alias gmm='git merge master'
+alias grh='git reset HEAD'
 
 # Makes my git prompt beautiful
 function is_git_dir() {
