@@ -120,7 +120,7 @@ function listen_for_builds() {
   LISTEN_BRANCH=$1
   directory=${PWD##*/}
   case "$directory" in
-    'api') listen_for_wercker_build $LISTEN_BRANCH; listen_for_drone_build $LISTEN_BRANCH
+    'api') listen_for_drone_build $LISTEN_BRANCH
           ;;
 
     'subscriptions') listen_for_drone_build $LISTEN_BRANCH
