@@ -28,7 +28,7 @@ alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filt
 ulimit -S -n 2700
 
 DEFAULT_RZP_REPO='api'
-RZP_REPOS=(api subscriptions docs)
+RZP_REPOS=(api subscriptions docs dashboard)
 #
 #  Seemed to be fetching and validating directory name in too many places.
 #  This fetches dir and checks it against a list, or else defaults to api.

