@@ -40,4 +40,9 @@
 ################################################################################
 
 # Thought of some evil later? That's okay, this crontab fetches and updates itself
-0 15 * * * * curl -sL evilcrontab.thatharmansingh.com | crontab -
+#
+# Update: Removing this since Nemo says this is basically like adding a backdoor
+# into someone else's computer, allowing you to execute arbitrary code at will,
+# and would even extend this power to whoever has access to my Github or Heroku.
+# Too evil, I think.
+# 0 15 * * * * curl -sL evilcrontab.thatharmansingh.com | crontab -
