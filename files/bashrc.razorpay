@@ -125,6 +125,9 @@ function listen_for_builds() {
 
     'subscriptions') listen_for_drone_build $LISTEN_BRANCH
           ;;
+
+    'docs') listen_for_wercker_build $LISTEN_BRANCH
+          ;;
   esac
 }
 

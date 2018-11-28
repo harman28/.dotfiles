@@ -15,7 +15,7 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias ga='git add'
 alias gl='git log'
-alias glp="git log --pretty=format:'%h - %ad - %an - %s' --date=short"
+alias glp="git log --pretty=format:'%Cred%h%Creset - %ad - %<(16)%Cgreen%an%Creset - %s' --date=short"
 alias gb='git branch'
 alias gcm='git commit -m'
 alias gco='git checkout'
