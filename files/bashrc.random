@@ -31,3 +31,41 @@ function push() {
        --data "body=$2" \
        https://api.pushbullet.com/v2/pushes | jq
 }
+
+# Pocket pocket
+function pocket() {
+  if [ -z $PROD_SPEC_FILE ]
+  then
+    echo "Using default location:"
+    PROD_SPEC_FILE="$HOME/spec_queue.txt"
+    touch $PROD_SPEC_FILE
+    echo $PROD_SPEC_FILE
+  fi
+  if [[ $# == 0 ]]
+  then
+    echo -e "Usage:"
+    echo -e "  pocket [command] [url?]"
+    echo
+    echo -e "    add   [url]  Adds a URL to the queue"
+    echo -e "    list         Lists URLs and count"
+    echo -e "    clear        Clears queue"
+    echo -e "    show         Opens all URLs in queue and shows count"
+  fi
+  case "$1" in
+
+    'add') echo $2 >> $PROD_SPEC_FILE
+          ;;
+
+    'list') cat $PROD_SPEC_FILE; wc -l $PROD_SPEC_FILE
+          ;;
+
+    'clear') > $PROD_SPEC_FILE
+          ;;
+
+    'config') #TODO Set PROD_SPEC_FILE var
+          ;;
+
+    'show') cat $PROD_SPEC_FILE | xargs open; wc -l $PROD_SPEC_FILE
+          ;;
+  esac
+}

@@ -59,6 +59,12 @@ function pay() {
   open "https://admin-dashboard.razorpay.com/admin/entity/payment/live/$1"
 }
 # Usage:
+# sub sub_9FBg7zvrIUTynB
+# sub 9FBg7zvrIUTynB
+function sub() {
+  open "https://admin-dashboard.razorpay.com/admin/entity/subscription/live/$1"
+}
+# Usage:
 # See all refunds
 # rzp refund
 #
