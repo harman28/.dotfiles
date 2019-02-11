@@ -349,6 +349,11 @@ function clear_log() {
 alias clear_cache="redis-cli flushall"
 
 # Checks if Rzp Api is serving the same commit consistently
+# Prints counts for all commits received
+#
+# Dependencies:
+# 1. Assoc arrays only work on Bash 4+
+# 2. associative_array_contains for easy lookups
 function rzp_api_check() {
   if [[ $# -eq 0 ]]
   then
@@ -356,29 +361,21 @@ function rzp_api_check() {
   else
     limit=$1
   fi
-  # The assumption is that the first commit is the 'right' one.
-  # It's dumb, but it will usually work.
-  first_commit=$(curl -s https://api.razorpay.com/commit.txt)
-  observed_commits=($first_commit)
-  fault=0
+  declare -A commits
   for ((n=0;n<$limit;n++))
   do
     new_commit=$(curl -s https://api.razorpay.com/commit.txt)
-    indexed_array_contains $new_commit "${observed_commits[@]}"
-    if [[ "$?" != 0 ]]
-    then
-      observed_commits+=($new_commit)
-    fi
-    if [[ "$new_commit" != "$first_commit" ]]
-    then
-      ((fault++))
+    if ! associative_array_contains $new_commit in commits; then
+      commits[$new_commit]=1
+    else
+      ((commits[$new_commit]++))
     fi
   done
-  echo "Tried $limit times. Got the following commits:"
-  printf "%s\n" "${observed_commits[@]}"
-  failure=$((100*$fault/$limit))
-  echo "Got a new commit $fault times."
-  echo "That's $failure%"
+  echo "Tried $limit times. Got the following commit counts:"
+  for commit in "${!commits[@]}";
+  do
+    echo "$commit: ${commits[$commit]}";
+  done
 }
 
 #

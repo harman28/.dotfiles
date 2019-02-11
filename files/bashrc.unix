@@ -60,8 +60,7 @@ function indexed_array_contains() {
 
 #
 # Usage:
-# associative_array_contains $needle "${haystack[@]}"
-# if ! exists key in array; then
+# if ! associative_array_contains key in array; then
 #   echo "No such array element"
 # fi
 #
