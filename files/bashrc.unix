@@ -42,7 +42,7 @@ COLOUR_CODE_NC='\033[0m'
 
 #
 # Usage:
-# array_contains $needle "${haystack[@]}"
+# indexed_array_contains $needle "${haystack[@]}"
 # if [[ "$?" == 0 ]]; then
 #   do_contains_thing
 # else
@@ -51,12 +51,31 @@ COLOUR_CODE_NC='\033[0m'
 #
 # Source: https://stackoverflow.com/a/8574392/5612201
 #
-function array_contains() {
+function indexed_array_contains() {
   local e match="$1"
   shift
   for e; do [[ "$e" == "$match" ]] && return 0; done
   return 1
 }
+
+#
+# Usage:
+# associative_array_contains $needle "${haystack[@]}"
+# if ! exists key in array; then
+#   echo "No such array element"
+# fi
+#
+# Source: https://stackoverflow.com/a/13221491/5612201
+#
+function associative_array_contains(){
+  if [ "$2" != 'in' ]; then
+    echo "Incorrect usage."
+    echo "Correct usage: exists {key} in {array}"
+    return
+  fi
+  eval '[ ${'$3'[$1]+muahaha} ]'
+}
+
 
 # How  did anyone function without this?
 alias diff='colordiff'

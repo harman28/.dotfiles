@@ -22,7 +22,13 @@ alias tinker='api; php artisan tinker;'
 
 # PHPUNIT
 alias pufilt="phpunit --debug --verbose --filter"
-alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filter"
+# alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filter"
+
+function pustop() {
+  sed -i '.bak' '173d;176d' tests/Functional/Database.php
+  phpunit --debug --verbose --stop-on-failure --stop-on-error --filter $1
+  mv tests/Functional/Database.php.bak tests/Functional/Database.php
+}
 
 #
 ulimit -S -n 2700
@@ -37,7 +43,7 @@ RZP_REPOS=(api subscriptions docs dashboard narayan governor)
 function get_rzp_repo() {
   repo=$DEFAULT_RZP_REPO
   directory=${PWD##*/}
-  array_contains $directory "${RZP_REPOS[@]}"
+  indexed_array_contains $directory "${RZP_REPOS[@]}"
   if [[ "$?" == 0 ]]
   then
     repo=$directory
@@ -350,19 +356,29 @@ function rzp_api_check() {
   else
     limit=$1
   fi
+  # The assumption is that the first commit is the 'right' one.
+  # It's dumb, but it will usually work.
   first_commit=$(curl -s https://api.razorpay.com/commit.txt)
   observed_commits=($first_commit)
+  fault=0
   for ((n=0;n<$limit;n++))
   do
     new_commit=$(curl -s https://api.razorpay.com/commit.txt)
-    array_contains $new_commit "${observed_commits[@]}"
+    indexed_array_contains $new_commit "${observed_commits[@]}"
     if [[ "$?" != 0 ]]
     then
       observed_commits+=($new_commit)
     fi
+    if [[ "$new_commit" != "$first_commit" ]]
+    then
+      ((fault++))
+    fi
   done
   echo "Tried $limit times. Got the following commits:"
   printf "%s\n" "${observed_commits[@]}"
+  failure=$((100*$fault/$limit))
+  echo "Got a new commit $fault times."
+  echo "That's $failure%"
 }
 
 #

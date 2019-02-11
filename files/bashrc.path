@@ -2,10 +2,10 @@
 
 
 # Setting PATH for Python 3.4
-PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.4/bin"
+# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.4/bin"
 
 # Setting PATH for Python 3.5
-PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.5/bin"
+# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.5/bin"
 
 PATH="${PATH}:/Applications/Postgres.app/Contents/Versions/latest/bin"
 
@@ -20,7 +20,8 @@ PATH="${PATH}:~/workplace/executables"
 PATH="${PATH}:/usr/local/Cellar/php70/7.0.12_5/bin"
 
 # Go
-export GOPATH="${HOME}/workplace/go"
+export GOPATH="${HOME}/workplace/go/"
+export GOROOT="/usr/local/bin/go"
 PATH="${PATH}:~/workplace/go/bin"
 PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 
