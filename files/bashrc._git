@@ -89,6 +89,11 @@ function gcl() {
   git clone "$1" && cd "$(basename "$1" | cut -f 1 -d '.')"
 }
 
+function dummy_commit() {
+  title="[dummy] $(random_word) $(random_word) $(random_word)"
+  git commit --allow-empty -m "$title" -m "This is a dummy commit, with a message generated using random words. The commit itself might be empty too, I'm not sure, I'm just a bot. Beep boop."
+}
+
 # Git checkout by date, instead of commit
 # Usage: gco_date "2016-12-31"
 function gco_date() {

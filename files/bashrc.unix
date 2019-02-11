@@ -107,6 +107,11 @@ function envar() {
   echo $var
 }
 
+function random_word() {
+  WORDFILE="/usr/share/dict/words"
+  shuf -n 1 $WORDFILE
+}
+
 # If you're checking path for something, I suspect
 # what you really want to do is copy it somewhere else.
 # Let me strip that newline for you.
