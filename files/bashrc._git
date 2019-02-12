@@ -48,7 +48,7 @@ function gfo() {
 function gpo_force() {
   CURRENT_BRANCH=$(git_branch)
   echolor yellow "WARNING: You're sure, right?"
-  confirm && (git push origin $CURRENT_BRANCH --force 2>&1 | tee /tmp/git_push_stderr_output)
+  confirm && (git push origin $CURRENT_BRANCH --force-with-lease 2>&1 | tee /tmp/git_push_stderr_output)
   maybe_open_a_pr
   listen_for_builds $CURRENT_BRANCH
 }
@@ -138,7 +138,7 @@ function git_rebase_force() {
     echo 'Branch rebased'
     echolor red 'WARNING: Force pushing is dangerous, and this script'\
                 "doesn't bother checking if the rebase went as expected."
-    confirm && git push origin $TARGET_BRANCH --force && listen_for_builds $TARGET_BRANCH
+    confirm && git push origin $TARGET_BRANCH --force-with-lease && listen_for_builds $TARGET_BRANCH
   fi
 }
 
