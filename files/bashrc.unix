@@ -86,7 +86,20 @@ alias rube="ruby -e"
 alias now="date +%s; date"
 
 # unix coin toss
-alias toss="rube 'p rand.round.zero? ? :heads : :tails'"
+function toss() {
+  FLIP=$(($(($RANDOM%10))%2))
+  HEADS_VAR=${1:-heads}
+  TAILS_VAR=${2:-tails}
+  if [ $FLIP -eq 1 ]
+  then
+    echo $HEADS_VAR
+  else
+    echo $TAILS_VAR
+    # This is so you can use toss in piped commands
+    # Eg. toss && echo 'print this only half the time'
+    return 1
+  fi
+}
 
 # Stuff I don't want showing up in the git repo
 alias rc='sublime ~/.bashrc'
