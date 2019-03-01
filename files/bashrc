@@ -31,3 +31,9 @@ dot() {
   sublime ~/.dotfiles
   cd ~/.dotfiles
 }
+
+# Useful when you've just added something to dot files and need a quick way of
+# refreshing your open terminal session to pick up the new additions
+resource() {
+  source ~/.bashrc
+}
