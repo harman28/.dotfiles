@@ -1,3 +1,4 @@
+
 #!/bin/sh
 #
 # Company related things, that can probably be removed or repurposed when I leave, go here.
@@ -9,6 +10,7 @@ alias dashboard='cd ~/workplace/razorpay/dashboard'
 alias subscriptions='cd ~/workplace/razorpay/subscriptions'
 alias docs='cd ~/workplace/razorpay/docs'
 alias crons='cd ~/workplace/razorpay/cron'
+alias cda='composer dump-autoload'
 
 # Gogogo
 function gocodebase() {
@@ -34,7 +36,7 @@ function pustop() {
 ulimit -S -n 2700
 
 DEFAULT_RZP_REPO='api'
-RZP_REPOS=(api subscriptions docs dashboard narayan governor)
+RZP_REPOS=(api subscriptions docs dashboard narayan governor cps)
 #
 #  Seemed to be fetching and validating directory name in too many places.
 #  This fetches dir and checks it against a list, or else defaults to api.
