@@ -80,7 +80,11 @@ function get_color_code() {
 }
 function git_prompt(){
   color_code=$(get_color_code)
-  PS1="\[\033[01;34m\]\u\[\033[01;39m\]@\h\[\033[01;${color_code}m\] \W $(git_branch_paran)\[\033[00m\] > "
+  CC_BLUE_BOLD='\033[01;34m'
+  CC_BLACK_BOLD='\033[01;30m'
+  CC_GIT="\033[01;${color_code}m"
+  CC_NC='\033[00m'
+  PS1="${CC_BLUE_BOLD}\u${CC_BLACK_BOLD}@\h$CC_GIT \W $(git_branch_paran)$CC_NC > "
 }
 export PROMPT_COMMAND="${PROMPT_COMMAND};git_prompt"
 
