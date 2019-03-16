@@ -159,12 +159,7 @@ function merge() {
   then
     merge_method=$2
   fi
-  REPO='api'
-  directory=${PWD##*/}
-  if [[ $directory == 'subscriptions' ]]
-  then
-    REPO='subscriptions'
-  fi
+  REPO=$(get_rzp_repo)
   curl -s -X PUT \
        -H "Authorization: token $GUT_TOKEN" \
        -H "Content-Type: application/json" \
