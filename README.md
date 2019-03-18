@@ -5,6 +5,7 @@ My dotfiles.
 ```sh
 > git clone https://github.com/harman28/.dotfiles.git ~/.dotfiles
 > echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
+> cd ~/.dotfiles; git update-index --assume-unchanged
 ```
 
 You're done.
