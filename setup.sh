@@ -6,7 +6,7 @@ echo 'source ~/.dotfiles/bashrc' >> ~/.bashrc
 
 # For Mac
 if [ $(uname) == 'Darwin' ]; then
-  echo extra/bash_profile >> ~/.bash_profile
+  cat extra/bash_profile >> ~/.bash_profile
 fi
 
 which brew 1>&2
@@ -41,8 +41,20 @@ brew_if ncdu
 brew_if terminal-notifier
 brew_if fzf
 brew_if jq
+# Mac's ruby is Mac's ruby. If you don't install your own
+# then you need sudo just to install gems, which is ugh.
+brew_if ruby
 gem install mailqun
 gem install echolor
+
+brew cask install clipy
+brew cask install google-chrome
+brew cask install slack
+brew cask install sublime-text
+brew cask install alfred
+brew cask install flux
+brew cask install puush
+brew cask install franz
 
 add_to_executables() {
   if [[ ! -f ~/workplace/executables/$1 ]]
@@ -70,8 +82,8 @@ cp ~/.dotfiles/extra/scripts/sublime_wait ~/workplace/executables/
 chmod +x ~/workplace/executables/sublime_wait
 
 # Set up the tennis DB
-mkdir -p workplace/tennis
-cd workplace/tennis
+mkdir -p ~/workplace/tennis
+cd ~/workplace/tennis
 git clone https://github.com/harman28/tennis_atp.git
 cd tennis_atp
 bash setup/PostgreSQL/convert_postgres.sh
