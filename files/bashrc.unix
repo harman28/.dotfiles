@@ -112,6 +112,9 @@ function pick_bashrc_if_available(){
     . .bashrc
   fi
 }
+# It looks weird that we're completely replacing the prompt instead of just appending to it,
+# but that's because the default value holds update_terminal_cwd, which I just don't like
+# export PROMPT_COMMAND="${PROMPT_COMMAND};pick_bashrc_if_available"
 export PROMPT_COMMAND=pick_bashrc_if_available
 
 # Look up IPs easily

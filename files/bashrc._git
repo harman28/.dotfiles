@@ -84,7 +84,9 @@ function git_prompt(){
   CC_BLACK_BOLD='\033[01;30m'
   CC_GIT="\033[01;${color_code}m"
   CC_NC='\033[00m'
-  PS1="${CC_BLUE_BOLD}\u${CC_BLACK_BOLD}@\h$CC_GIT \W $(git_branch_paran)$CC_NC > "
+  # All those escaped \[s and \]s are to tell bash to ignore vars when calculating line length.
+  # Without these, terminal offsets get funky very quickly.
+  PS1="\[${CC_BLUE_BOLD}\]\u\[${CC_BLACK_BOLD}\]@\h\[${CC_GIT}\] \W $(git_branch_paran)\[${CC_NC}\] > "
 }
 export PROMPT_COMMAND="${PROMPT_COMMAND};git_prompt"
 
