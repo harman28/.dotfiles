@@ -8,13 +8,13 @@
 #│ │ │ │ │                                       7 is also Sunday on some systems)
 #│ │ │ │ │
 #/ / / / /
-0 * * * * /Users/harmansingh/.dotfiles/extra/scripts/git_delete_merged_branches
+0 * * * * /Users/harman/.dotfiles/extra/scripts/git_delete_merged_branches
 
-* 10-20 * * 1-5 /Users/harmansingh/.dotfiles/extra/scripts/hunt_at_rzp
+* 10-20 * * 1-5 /Users/harman/.dotfiles/extra/scripts/hunt_at_rzp
 
-# */2 * * * * env && /bin/bash -c 'ruby /Users/harmansingh/workplace/razorpay/cron/monochecker.rb'
+# */2 * * * * env && /bin/bash -c 'ruby /Users/harman/workplace/razorpay/cron/monochecker.rb'
 
-# */5 * * * * rsync -av --exclude 'TorrentCache' $TMPDIR/Popcorn-Time/ /Users/harmansingh/Movies
+# */5 * * * * rsync -av --exclude 'TorrentCache' $TMPDIR/Popcorn-Time/ /Users/harman/Movies
 
 # Keep lightsaber alive
 0,20,40 11-19 * * * curl -sL lightsaber.thatharmansingh.com  > /dev/null 2>&1

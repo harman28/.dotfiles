@@ -27,9 +27,10 @@ alias pufilt="phpunit --debug --verbose --filter"
 # alias pustop="phpunit --debug --verbose --stop-on-failure --stop-on-error --filter"
 
 function pustop() {
-  sed -i '.bak' '173d;176d' tests/Functional/Database.php
-  phpunit --debug --verbose --stop-on-failure --stop-on-error --filter $1
-  mv tests/Functional/Database.php.bak tests/Functional/Database.php
+  # sed -i '.bak' '173d;176d' tests/Functional/Database.php
+  # vendor/bin/phpunit --debug --verbose --stop-on-failure --stop-on-error --filter $1
+  # mv tests/Functional/Database.php.bak tests/Functional/Database.php
+  make test AT="--filter $1 --stop-on-failure --stop-on-error --debug --verbose"
 }
 
 #
@@ -341,11 +342,11 @@ function winky() {
 
 # Clears all logged info in razorpay/api
 function clear_log() {
-  rm /Users/harmansingh/workplace/razorpay/api/storage/logs/localhost-trace-*.log
-  rm /Users/harmansingh/workplace/razorpay/subscriptions/storage/logs/*-trace.log
-  > /Users/harmansingh/workplace/razorpay/api/storage/logs/laravel.log
-  > /Users/harmansingh/workplace/razorpay/api/storage/logs/cron.log
-  > /Users/harmansingh/workplace/razorpay/api/storage/logs/instance.json
+  rm /Users/harman/workplace/razorpay/api/storage/logs/*-trace-*.log &> /dev/null
+  rm /Users/harman/workplace/razorpay/subscriptions/storage/logs/*-trace.log &> /dev/null
+  > /Users/harman/workplace/razorpay/api/storage/logs/laravel.log
+  > /Users/harman/workplace/razorpay/api/storage/logs/cron.log
+  > /Users/harman/workplace/razorpay/api/storage/logs/instance.json
 }
 
 alias clear_cache="redis-cli flushall"

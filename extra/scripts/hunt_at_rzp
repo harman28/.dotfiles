@@ -6,7 +6,7 @@
 # Calling this with cron expression * 10-20 * * 1-5
 #
 
-HUNT_LOG_FILE=/Users/harmansingh/.dotfiles/extra/scripts/hunt_at_rzp.log
+HUNT_LOG_FILE=/Users/harman/.dotfiles/extra/scripts/hunt_at_rzp.log
 
 # Evil apps
 declare -a rzp_blacklist=('Popcorn' 'TunnelBear')
