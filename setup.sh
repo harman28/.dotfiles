@@ -47,14 +47,21 @@ brew_if ruby
 gem install mailqun
 gem install echolor
 
-brew cask install clipy
-brew cask install google-chrome
-brew cask install slack
-brew cask install sublime-text
-brew cask install alfred
+brew cask install vlc
 brew cask install flux
-brew cask install puush
+brew cask install clipy
 brew cask install franz
+brew cask install puush
+brew cask install slack
+brew cask install alfred
+brew cask install kindle
+brew cask install spotify
+brew cask install cleanmymac
+brew cask install sublime-text
+brew cask install google-chrome
+
+git config --global user.email "harman28@gmail.com"
+git config --global user.name "Harman Singh"
 
 add_to_executables() {
   if [[ ! -f ~/workplace/executables/$1 ]]
@@ -63,6 +70,10 @@ add_to_executables() {
     chmod +x ~/workplace/executables/$1
   fi
 }
+
+# Makes Finder quit-able
+defaults write com.apple.finder QuitMenuItem -bool true
+killall Finder
 
 mkdir -p ~/workplace/executables
 
