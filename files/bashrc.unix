@@ -85,6 +85,11 @@ alias rube="ruby -e"
 # I keep having to check the time since epoch
 alias now="date +%s; date"
 
+# Easiest way to get a running time UI
+function timestream() {
+  while true; do sleep 1; date; done
+}
+
 # unix coin toss
 function toss() {
   FLIP=$(($(($RANDOM%10))%2))
@@ -213,3 +218,8 @@ function wtf() {
 
 # Host directories
 alias webserver='python -m SimpleHTTPServer'
+
+# For general grouping. Ideally this should be a Sublime plugin, but I don't
+# know how to write one yet, so this is a good temporary solution. Copy the
+# text you want to group, and execute this. It sources from clipboard.
+alias group='pbpaste | sort | uniq -c | sort -r'

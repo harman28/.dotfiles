@@ -25,9 +25,6 @@ export GOROOT="/usr/local/bin/go"
 PATH="${PATH}:~/workplace/go/bin"
 PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-PATH="${PATH}:$HOME/.rvm/bin"
-
 # This is giving some weird error that I don't really want to look into right now.
 #
 # ###############################################################################################################
