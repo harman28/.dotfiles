@@ -53,6 +53,12 @@ function kindle_convert(){
   echo '' | mutt -a "$1" -s 'convert' -- HARMAN28_35796C@kindle.com
 }
 
+# For Whatsapping a number you'd rather not save as a contact
+# Assumes you have Whatsapp Web set up
+function whatsapp() {
+  open "https://api.whatsapp.com/send?phone=91${1}"
+}
+
 # Wikipedia in the terminal
 # Use brew for lynx
 # No, I've never seriously used this
