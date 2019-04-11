@@ -54,7 +54,9 @@ COLOUR_CODE_NC='\033[0m'
 function indexed_array_contains() {
   local e match="$1"
   shift
-  for e; do [[ "$e" == "$match" ]] && return 0; done
+  for e; do
+    [[ "$e" == "$match" ]] && return 0
+  done
   return 1
 }
 
@@ -87,7 +89,10 @@ alias now="date +%s; date"
 
 # Easiest way to get a running time UI
 function timestream() {
-  while true; do sleep 1; date; done
+  while true; do
+    sleep 1;
+    date;
+  done
 }
 
 # unix coin toss
@@ -95,8 +100,7 @@ function toss() {
   FLIP=$(($(($RANDOM%10))%2))
   HEADS_VAR=${1:-heads}
   TAILS_VAR=${2:-tails}
-  if [ $FLIP -eq 1 ]
-  then
+  if [ $FLIP -eq 1 ]; then
     echo $HEADS_VAR
   else
     echo $TAILS_VAR
@@ -111,8 +115,7 @@ alias rc='sublime ~/.bashrc'
 
 # If there's a .bashrc in the current directory, grab it
 function pick_bashrc_if_available(){
-  if [[ "$bashrc" != "$PWD" && "$PWD" != "$HOME" && -e .bashrc ]]
-  then
+  if [[ "$bashrc" != "$PWD" && "$PWD" != "$HOME" && -e .bashrc ]]; then
     bashrc="$PWD"
     . .bashrc
   fi
@@ -155,8 +158,7 @@ function random_word() {
 # what you really want to do is copy it somewhere else.
 # Let me strip that newline for you.
 function path(){
-  if [[ $# -eq 0 ]]
-  then
+  if [[ $# -eq 0 ]]; then
     pwd | tee /dev/tty | tr -d '[:space:]' | pbcopy
   else
     realpath $1 | tee /dev/tty | tr -d '[:space:]' | pbcopy
@@ -177,8 +179,7 @@ function mkcd () { mkdir -p "$@" && cd "$@"; }
 function confirm() {
   read -p "Continue? <Y/N> " input
   response=$(echo -n "$input" | awk '{print tolower($0)}')
-  if [[ $response != "y" && $response != "yes" ]]
-  then
+  if [[ $response != "y" && $response != "yes" ]]; then
     echo "Lol okay."
     false
   fi
@@ -186,10 +187,10 @@ function confirm() {
 
 # Gently murder the nice apps
 function close(){
-  if [[ $# -eq 0 ]]
-    then echo "Usage: ${FUNCNAME[0]} [PATTERN]"
-  elif [[ -n $(pgrep $1) ]]
-    then kill $(pgrep $1); echo "Quit $1."
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: ${FUNCNAME[0]} [PATTERN]"
+  elif [[ -n $(pgrep $1) ]]; then
+    kill $(pgrep $1); echo "Quit $1."
   else
     echo "No instances of $1 open."
   fi
@@ -197,10 +198,10 @@ function close(){
 
 # Brutally extinguish all processes that match a pattern
 function hunt(){
-  if [[ $# -eq 0 ]]
-    then echo "Usage: ${FUNCNAME[0]} [PATTERN]"
-  elif [[ -n $(pgrep $1) ]]
-    then sudo kill -9 $(pgrep $1); echo "$1 has been taken care of."
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: ${FUNCNAME[0]} [PATTERN]"
+  elif [[ -n $(pgrep $1) ]]; then
+    sudo kill -9 $(pgrep $1); echo "$1 has been taken care of."
   else
     echo 'ERROR: No matching processes. What are you hunting?'
   fi
@@ -209,8 +210,7 @@ function hunt(){
 # Find out who you want to kill
 function wtf() {
   WTF_LIMIT=10
-  if [[ $# -eq 1 ]];
-  then
+  if [[ $# -eq 1 ]]; then
     WTF_LIMIT=$1
   fi
   ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk 4 | head -n $WTF_LIMIT | cut -c -$COLUMNS

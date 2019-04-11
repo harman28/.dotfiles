@@ -28,8 +28,7 @@ function notify() {
 # Example: Notify me when my cult booking script has given a recent success
 # poll "curl -s http://139.59.39.63/cult/harman/log.txt | tail | grep SUCCESS";
 function poll() {
-  if [[ $# -ne 1 ]]
-  then
+  if [[ $# -ne 1 ]]; then
     echo "Poll what?"
     echo "Usage: poll 'the command you want to run'"
   else
@@ -37,8 +36,7 @@ function poll() {
 
     ( eval $cmd ) && notify "Done!" "Polling complete" 1>&2 2>/dev/null
 
-    while [[ $? -ne 0 ]]
-    do
+    while [[ $? -ne 0 ]]; do
       sleep 10
       ( eval $cmd ) && notify "Done!" "Polling complete" 1>&2 2>/dev/null
     done

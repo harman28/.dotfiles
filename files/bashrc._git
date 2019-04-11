@@ -66,14 +66,12 @@ function git_branch_paran() {
 function get_color_code() {
   color_code='32'
   is_git_dir && new_files=$(git ls-files --others --exclude-standard | wc -l)
-  if [[ $new_files -ne 0 ]]
-  then
+  if [[ $new_files -ne 0 ]]; then
     color_code='33'
   fi
   is_git_dir && git diff-index --quiet HEAD --
   files_changed=$?
-  if [[ $files_changed -eq 1 ]]
-  then
+  if [[ $files_changed -eq 1 ]]; then
     color_code='31'
   fi
   echo $color_code
@@ -103,8 +101,7 @@ function dummy_commit() {
 # Git checkout by date, instead of commit
 # Usage: gco_date "2016-12-31"
 function gco_date() {
-  if [[ $# -ne 1 ]]
-  then
+  if [[ $# -ne 1 ]]; then
     echo "Usage: gco_date 2017-12-31"
   else
     git checkout `git rev-list -n 1 --before="$1" master`
@@ -118,8 +115,7 @@ function gco_date() {
 # Call function and watch for conflicts.
 # Confirm when prompted
 function git_rebase_force() {
-  if [[ $# -eq 1 ]]
-  then
+  if [[ $# -eq 1 ]]; then
     CURRENT_BRANCH=$(git_branch)
     echo 'Stashing changes'
     git stash
@@ -130,8 +126,7 @@ function git_rebase_force() {
   else
     TARGET_BRANCH=$(git_branch)
     git checkout master
-    if [ $(git rev-parse HEAD) == $(git ls-remote origin master | cut -f1) ]
-    then
+    if [ $(git rev-parse HEAD) == $(git ls-remote origin master | cut -f1) ]; then
       echo 'Master is already up-to-date'
     else
       echo 'Pulling latest changes'
@@ -157,8 +152,7 @@ function git_rebase_force() {
 #
 function merge() {
   merge_method='merge'
-  if [[ $# -eq 2 ]]
-  then
+  if [[ $# -eq 2 ]]; then
     merge_method=$2
   fi
   REPO=$(get_rzp_repo)

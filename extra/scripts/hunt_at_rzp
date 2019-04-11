@@ -30,8 +30,7 @@ function log() {
 
 # Gently murder the nice apps
 function close_silently() {
-  if [[ -n $(pgrep $1) ]]
-  then
+  if [[ -n $(pgrep $1) ]]; then
     kill $(pgrep $1)
     log "Closed $app_regex"
   fi
@@ -43,7 +42,6 @@ if [[ $wifi_name != "Razorpay"* ]]; then
   exit 0
 fi
 
-for app_regex in "${rzp_blacklist[@]}"
-do
+for app_regex in "${rzp_blacklist[@]}"; do
   close_silently $app_regex
 done

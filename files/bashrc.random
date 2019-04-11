@@ -34,15 +34,13 @@ function push() {
 
 # Pocket pocket
 function pocket() {
-  if [ -z $PROD_SPEC_FILE ]
-  then
+  if [ -z $PROD_SPEC_FILE ]; then
     echo "Using default location:"
     PROD_SPEC_FILE="$HOME/spec_queue.txt"
     touch $PROD_SPEC_FILE
     echo $PROD_SPEC_FILE
   fi
-  if [[ $# == 0 ]]
-  then
+  if [[ $# == 0 ]]; then
     echo -e "Usage:"
     echo -e "  pocket [command] [url?]"
     echo

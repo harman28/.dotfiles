@@ -10,28 +10,25 @@ alias boondh='ssh harman@thatharmansingh.com'
 alias gossh='ssh harman@139.59.39.63'
 #mount remote vm using sshfs
 function mountvm(){
-  if [[ $# -eq 0 ]]
-    #then echo "Usage: ${FUNCNAME[0]} [MOUNTING_POINT]"
-    then
-      if [[ -n $(ls ~/workplace/vm) ]]
-        then
-          echo '~/workplace/vm is already a mount point. Unmounting that first.'
-          umount ~/workplace/vm
-      fi
-      sshfs -o follow_symlinks,transform_symlinks harman@139.59.39.63:/home/harman ~/workplace/vm
-      echo 'Moving to mount point...'
-      cd ~/workplace/vm;
-    else
-      sshfs -o follow_symlinks,transform_symlinks harman@139.59.39.63:/home/harman $1
-      cd $1
+  if [[ $# -eq 0 ]]; then
+    #echo "Usage: ${FUNCNAME[0]} [MOUNTING_POINT]"
+    if [[ -n $(ls ~/workplace/vm) ]]; then
+      echo '~/workplace/vm is already a mount point. Unmounting that first.'
+      umount ~/workplace/vm
+    fi
+    sshfs -o follow_symlinks,transform_symlinks harman@139.59.39.63:/home/harman ~/workplace/vm
+    echo 'Moving to mount point...'
+    cd ~/workplace/vm;
+  else
+    sshfs -o follow_symlinks,transform_symlinks harman@139.59.39.63:/home/harman $1
+    cd $1
   fi
 }
 function unmountvm(){
-  if [[ -n $(ls ~/workplace/vm) ]]
-    then
-      umount ~/workplace/vm
-    else
-      echo '~/workplace/vm is not a mount point.'
+  if [[ -n $(ls ~/workplace/vm) ]]; then
+    umount ~/workplace/vm
+  else
+    echo '~/workplace/vm is not a mount point.'
   fi
 }
 
