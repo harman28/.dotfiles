@@ -78,7 +78,7 @@ killall Finder
 mkdir -p ~/workplace/executables
 
 # Subtitle script
-add_to_executables subtitle-downloader https://raw.githubusercontent.com/manojmj92/subtitle-downloader/master/subtitle-downloader.py
+add_to_executables subtitle-downloader https://raw.githubusercontent.com/manojmj92/subtitle-downloader/02ee2a2/subtitle-downloader/subtitle_downloader.py
 # Speed Test
 add_to_executables speedtest https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 # Memory check
