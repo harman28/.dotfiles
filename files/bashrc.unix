@@ -84,13 +84,10 @@ alias diff='colordiff'
 # Ruby inline
 alias rube="ruby -e"
 
-# I keep having to check the time since epoch
-alias now="date +%s; date"
-
 # Milestones for quick queries.
 # There's definitely some cool way of doing this
 # using bash date, but I haven't read up on it yet.
-function today() {
+function now() {
   ruby -e "
     require 'date';
     require 'colorize';
@@ -101,23 +98,26 @@ function today() {
     end
 
     today=DateTime.now;
+    puts 'Now: '
+    puts today.to_time.to_s.italic, today.to_time.to_i.to_s.bold
+    puts
     today=DateTime.new(today.year, today.month, today.day, 0, 0, 0, today.zone)
-    print 'Today: '
+    print 'This day: #'
     puts today.yday
     puts today.to_time.to_s.italic, today.to_time.to_i.to_s.bold
-
+    puts
     week=(today-today.wday).next_day
-    print 'This week: '
+    print 'This week: #'
     puts today.cweek
     puts week.to_time.to_s.italic, week.to_time.to_i.to_s.bold
-
+    puts
     month=(today-today.day).next_day
-    print 'This month: '
+    print 'This month: #'
     puts today.month
     puts month.to_time.to_s.italic, month.to_time.to_i.to_s.bold
-
+    puts
     year=(today-today.yday).next_day
-    print 'This year: '
+    print 'This year: #'
     puts today.year
     puts year.to_time.to_s.italic, year.to_time.to_i.to_s.bold
   "
