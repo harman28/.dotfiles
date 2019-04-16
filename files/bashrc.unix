@@ -87,6 +87,42 @@ alias rube="ruby -e"
 # I keep having to check the time since epoch
 alias now="date +%s; date"
 
+# Milestones for quick queries.
+# There's definitely some cool way of doing this
+# using bash date, but I haven't read up on it yet.
+function today() {
+  ruby -e "
+    require 'date';
+    require 'colorize';
+
+    class String
+      def bold;   \"\e[1m#{self}\e[22m\" end
+      def italic; \"\e[3m#{self}\e[23m\" end
+    end
+
+    today=DateTime.now;
+    today=DateTime.new(today.year, today.month, today.day, 0, 0, 0, today.zone)
+    print 'Today: '
+    puts today.yday
+    puts today.to_time.to_s.italic, today.to_time.to_i.to_s.bold
+
+    week=(today-today.wday).next_day
+    print 'This week: '
+    puts today.cweek
+    puts week.to_time.to_s.italic, week.to_time.to_i.to_s.bold
+
+    month=(today-today.day).next_day
+    print 'This month: '
+    puts today.month
+    puts month.to_time.to_s.italic, month.to_time.to_i.to_s.bold
+
+    year=(today-today.yday).next_day
+    print 'This year: '
+    puts today.year
+    puts year.to_time.to_s.italic, year.to_time.to_i.to_s.bold
+  "
+}
+
 # Easiest way to get a running time UI
 function timestream() {
   while true; do
