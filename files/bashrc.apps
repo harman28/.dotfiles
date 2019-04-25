@@ -6,6 +6,8 @@
 # Of course, you have sublime
 # The executable assumes that sublime is called using 'sublime' and not 'subl'
 export EDITOR=~/workplace/executables/sublime_wait
+# Open current dir in sublime
+alias subl='sublime .'
 
 # Shortcut to download subtitles
 # https://raw.githubusercontent.com/manojmj92/subtitle-downloader/master/subtitle-downloader.py
