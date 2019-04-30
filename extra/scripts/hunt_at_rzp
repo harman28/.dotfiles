@@ -20,6 +20,7 @@ function ssid_name() {
 
 # Popup in notification center
 function notify() {
+  echo $1 $2
   /usr/local/bin/terminal-notifier -message "$2" -title "$1" -sound Ping
 }
 

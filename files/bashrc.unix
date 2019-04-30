@@ -131,6 +131,40 @@ function timestream() {
   done
 }
 
+# Verbose counter. Useful mostly with other commands meant to be delayed.
+#
+# Eg. coundown $((30*60)) && notify "post another question on #quiz"
+function countdown() {
+  for i in $(seq $1 1); do
+    echo $i
+    sleep 1
+  done
+}
+
+# Using countdown to implement basic pomodoro
+function pomodoro() {
+  CMD='countdown'
+  if [ "$1" == "-s" ]; then
+    CMD='sleep'
+  fi
+  while true; do
+    for i in $(seq 1 3); do
+      # Work for 25 minutes
+      notify 'Work!' '25 minutes'
+      $CMD $((25*60))
+      # Break for 5 minutes
+      notify 'Short break!' '5 minutes'
+      $CMD $((5*60))
+    done
+    # Work for 25 minutes
+    notify 'Work!' '25 minutes'
+    $CMD $((25*60))
+    # Break for 15 minutes
+    notify 'Long break!' '15 minutes'
+    $CMD $((15*60))
+  done
+}
+
 # unix coin toss
 function toss() {
   FLIP=$(($(($RANDOM%10))%2))
