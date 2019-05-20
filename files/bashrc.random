@@ -3,9 +3,17 @@
 # Stuff that doesn't fit anywhere else, goes here
 
 # Tennis DB
-tennis(){
+function tennis() {
     cd ~/workplace/tennis
     psql atpdatabase
+}
+
+function audible() {
+  ASIN=$DEAFULT_AUDIBLE_ASIN
+  if [[ $# -eq 1 ]]; then
+    ASIN=$1
+  fi
+  open "https://www.audible.com/cloudplayer?asin=${ASIN}"
 }
 
 # Koinex

@@ -455,13 +455,19 @@ function gorazorpay_gogogo(){
 
   chrome 'https://mail.google.com/mail/u/1/#inbox' \
       'https://github.com/razorpay/api/pulls' \
-      'https://splunk-mumbai.razorpay.com/en-US/app/search/api_errors?earliest=0&latest='
+      'https://accounts.google.com/o/saml2/initsso?idpid=C00v45emw&spid=24842505448&forceauthn=false' \
+      # 'https://splunk-mumbai.razorpay.com/en-US/app/search/api_errors?earliest=0&latest='
 
-  open_working
+  # open_working
 
   open /Applications/Slack.app
   open /Applications/Spotify.app
-  open /Applications/Franz.app
+  open /Applications/WhatsApp.app
+  # open /Applications/Franz.app
+}
+
+function sumo() {
+  open 'https://accounts.google.com/o/saml2/initsso?idpid=C00v45emw&spid=24842505448&forceauthn=false'
 }
 
 # Nonsense that doesn't really work
