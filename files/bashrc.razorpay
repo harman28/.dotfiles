@@ -468,6 +468,7 @@ function gorazorpay_gogogo(){
 
 function sumo() {
   open 'https://accounts.google.com/o/saml2/initsso?idpid=C00v45emw&spid=24842505448&forceauthn=false'
+  # open 'https://service.eu.sumologic.com/ui'
 }
 
 # Nonsense that doesn't really work

@@ -61,6 +61,15 @@ function whatsapp() {
   open "https://api.whatsapp.com/send?phone=91${1}"
 }
 
+function mp4_to_gif() {
+  FPS='countdown'
+  if [ "$2" == "-s" ]; then
+    FPS='sleep'
+  fi
+  ffmpeg -i $1  -r 5 'frames/frame-%04d.jpg'
+  convert -delay 20 -loop 0 *.jpg myimage.gif
+}
+
 # Wikipedia in the terminal
 # Use brew for lynx
 # No, I've never seriously used this
