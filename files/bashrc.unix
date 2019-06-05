@@ -124,6 +124,36 @@ function now() {
   "
 }
 
+# The Nesbot Carbon constructor uses a bunch of fancy parsers,
+# allowing a lot of natural-language-to-timestamp conversions.
+# Exploiting that here for a super easy CLI epoch time converter.
+#
+# Dependency:
+# Assumes you used composer to install carbon globally
+# > composer global require nesbot/carbon
+#
+# Usage:
+#
+# > carbon 2 weeks ago
+# 2019-05-22 15:13:57
+# 1558518237
+#
+# > carbon last day of nov 2019
+# 2019-11-30 00:00:00
+# 1575052200
+#
+# > carbon next wednesday
+# 2019-06-12 00:00:00
+# 1560277800
+#
+function carbon() {
+  php -r "
+    require '$HOME/.composer/vendor/autoload.php';
+    echo \"\e[3m\" . (new Carbon\Carbon('$*', 'Asia/Kolkata')) . \"\e[23m\" . PHP_EOL;
+    echo \"\e[1m\" . (new Carbon\Carbon('$*', 'Asia/Kolkata'))->getTimestamp() . \"\e[23m\" . PHP_EOL;
+  "
+}
+
 # Easiest way to get a running time UI
 function timestream() {
   while true; do
