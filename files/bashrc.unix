@@ -12,6 +12,8 @@ export HISTFILESIZE=999999999999999999999999
 export HISTTIMEFORMAT="%d/%m/%y %T "
 export HISTCONTROL=ignoreboth
 
+export GREP_COLOR='1;33'
+
 # Use these to colour output
 COLOUR_CODE_BLACK='\033[0;30m'
 COLOUR_CODE_BLUE='\033[0;34m'
@@ -90,7 +92,6 @@ alias rube="ruby -e"
 function now() {
   ruby -e "
     require 'date';
-    require 'colorize';
 
     class String
       def bold;   \"\e[1m#{self}\e[22m\" end
@@ -283,7 +284,8 @@ function wtf() {
   if [[ $# -eq 1 ]]; then
     WTF_LIMIT=$1
   fi
-  ps ax -o user,pid,%cpu,%mem,tty,start,time,command | sed 1d | sort -nrk 4 | head -n $WTF_LIMIT | cut -c -$COLUMNS
+  echo "USER               PID  %CPU %MEM STARTED      TIME COMMAND"
+  ps ax -o user,pid,%cpu,%mem,start,time,command | sed 1d | sort -nrk 4 | head -n $WTF_LIMIT | cut -c -$COLUMNS
 }
 
 # Host directories
