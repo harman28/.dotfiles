@@ -63,21 +63,15 @@ function get_rzp_repo() {
 #
 # Usage:
 # merc 8iMbVsEnv1HCo0
-function merc() {
-  open "https://admin-dashboard.razorpay.com/admin/entity/merchant/live/$1"
-}
+alias merc="rzp merchant"
 # Usage:
 # pay pay_9FBg7zvrIUTynB
 # pay 9FBg7zvrIUTynB
-function pay() {
-  open "https://admin-dashboard.razorpay.com/admin/entity/payment/live/$1"
-}
+alias pay="rzp payment"
 # Usage:
 # sub sub_9FBg7zvrIUTynB
 # sub 9FBg7zvrIUTynB
-function sub() {
-  open "https://admin-dashboard.razorpay.com/admin/entity/subscription/live/$1"
-}
+alias sub="rzp subscription"
 # Usage:
 # See all refunds
 # rzp refund
@@ -85,6 +79,10 @@ function sub() {
 # See specific refund
 # rzp refund rfnd_9FBg71aeZmprMm
 # rzp refund 9FBg71aeZmprMm
+#
+# See specific refund in test mode
+# rzp refund rfnd_9FBg71aeZmprMm t
+# rzp refund 9FBg71aeZmprMm t
 #
 # Query refunds by payment_id
 # rzp refund p pay_836xKi6tq0swau
@@ -107,7 +105,12 @@ function rzp() {
       '*') query='merchant_id'
            ;;
     esac
-    open "https://admin-dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
+
+    if [ "$3" == 't' ]; then
+      open "https://admin-dashboard.razorpay.com/admin/entity/$1/test/$2"
+    else
+      open "https://admin-dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
+    fi
   else
     open "https://admin-dashboard.razorpay.com/admin/entities/live/$1"
   fi

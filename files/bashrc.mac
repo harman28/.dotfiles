@@ -20,7 +20,7 @@ alias vlc='open -a /Applications/VLC.app'
 # Popup in notification center
 function notify() {
   echo $1 $2
-  terminal-notifier -message "$2" -title "$1" -sound Ping
+  terminal-notifier -message "$2" -title "$1" -sound Ping -open $3
 }
 
 # Lets you run a command continuously till it returns status zero
