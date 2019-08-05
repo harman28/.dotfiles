@@ -21,7 +21,6 @@ PATH="${PATH}:/usr/local/Cellar/php70/7.0.12_5/bin"
 
 # Go
 export GOPATH="${HOME}/workplace/go/"
-export GOROOT="/usr/local/bin/go"
 PATH="${PATH}:~/workplace/go/bin"
 PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 
