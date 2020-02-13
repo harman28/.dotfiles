@@ -253,7 +253,7 @@ function envar() {
 
 function random_word() {
   WORDFILE="/usr/share/dict/words"
-  shuf -n 1 $WORDFILE
+  shuf -n 1 $WORDFILE | tee /dev/tty | tr -d '[:space:]' | pbcopy
 }
 
 # If you're checking path for something, I suspect

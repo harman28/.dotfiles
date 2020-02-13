@@ -91,7 +91,7 @@ alias sub="rzp subscription"
 # rzp refund m 5ubLZpACTmD8D4
 function rzp() {
   if [[ $# -eq 2 ]]; then
-    open "https://admin-dashboard.razorpay.com/admin/entity/$1/live/$2"
+    open "https://dashboard.razorpay.com/admin/entity/$1/live/$2"
   elif [[ $# -eq 3 ]]; then
     query='merchant_id'
     case "$2" in
@@ -102,29 +102,67 @@ function rzp() {
       'e') query='entity_id'
            ;;
 
+      't') query='terminal_id'
+           ;;
+
       '*') query='merchant_id'
            ;;
     esac
 
     if [ "$3" == 't' ]; then
-      open "https://admin-dashboard.razorpay.com/admin/entity/$1/test/$2"
+      open "https://dashboard.razorpay.com/admin/entity/$1/test/$2"
     else
-      open "https://admin-dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
+      open "https://dashboard.razorpay.com/admin/entities/live/$1?$query=$3"
     fi
   else
-    open "https://admin-dashboard.razorpay.com/admin/entities/live/$1"
+    open "https://dashboard.razorpay.com/admin/entities/live/$1"
   fi
 }
 # In case dashboard is reverted:
 # function merc() {
-#   open "https://admin-dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
+#   open "https://dashboard.razorpay.com/admin#/app/entity/live/merchant/$1"
 # }
 # function pay() {
-#   open "https://admin-dashboard.razorpay.com/admin#/app/payments/live/$1"
+#   open "https://dashboard.razorpay.com/admin#/app/payments/live/$1"
 # }
 # function rzp() {
-#   open "https://admin-dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
+#   open "https://dashboard.razorpay.com/admin#/app/entity/live/$1/$2"
 # }
+
+function dash() {
+  mode='live'
+  entity="$1"
+  suffix=''
+  if [[ $# -eq 2 ]]; then
+    # Single entity fetch
+    suffix="/$2"
+  elif [[ $# -eq 3 ]]; then
+    if [ "$3" == 't' ]; then
+      # Single entity fetch in test mode
+      mode='test'
+      suffix="/$2"
+    else
+      # Multi entity fetch in with query params
+      case "$2" in
+
+        'p') query='payment_id'
+             ;;
+
+        'e') query='entity_id'
+             ;;
+
+        't') query='terminal_id'
+             ;;
+
+        '*') query="$2"
+             ;;
+      esac
+      suffix="?$query=$3"
+    fi
+  fi
+  curl -s "https://dashboard.razorpay.com/admin/api/$mode/admin/$entity$suffix" \
+    -H "Cookie: rzp_usr_session=$RZP_USR_SESSION" | jq
+}
 
 # Splunk deprecated
 # function splunk() {
@@ -470,7 +508,7 @@ function gorazorpay_gogogo(){
 }
 
 function sumo() {
-  open 'https://accounts.google.com/o/saml2/initsso?idpid=C00v45emw&spid=24842505448&forceauthn=false'
+  open 'https://accounts.google.com/o/saml2/initsso?idpid=C00v45emw&spid=181320762203&forceauthn=false'
   # open 'https://service.eu.sumologic.com/ui'
 }
 

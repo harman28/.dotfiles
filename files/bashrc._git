@@ -90,7 +90,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND};git_prompt"
 
 # Git clone, and then cd into project directory
 function gcl() {
-  git clone "$1" && cd "$(basename "$1" | cut -f 1 -d '.')"
+  git clone "$1" && cd "$(basename "$1" | rev | cut -f 2- -d '.' | rev)"
 }
 
 function dummy_commit() {
