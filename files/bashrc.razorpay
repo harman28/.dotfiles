@@ -7,7 +7,6 @@ alias razorpay='cd ~/workplace/razorpay'
 alias api='cd ~/workplace/razorpay/api'
 alias dashboard='cd ~/workplace/razorpay/dashboard'
 alias subscriptions='cd ~/workplace/razorpay/subscriptions'
-alias docs='cd ~/workplace/razorpay/docs'
 alias crons='cd ~/workplace/razorpay/cron'
 alias cda='composer dump-autoload'
 
@@ -569,6 +568,7 @@ function rzp_cal() {
 # alias mono='cd ~/workplace/razorpay/cron; ruby ~/workplace/razorpay/cron/monochecker.rb && notify "mono run completed"'
 
 function docs() {
+  cd ~/workplace/razorpay/docs
   open "http://razorpay.com/docs/$1"
 }
 
