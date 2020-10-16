@@ -33,10 +33,10 @@ brew_if postgresql
 brew_if wget
 brew_if tree
 brew_if tig
-brew_if sshfs
-brew_if tmux
-brew_if mutt
-brew_if lynx
+# brew_if sshfs
+# brew_if tmux
+# brew_if mutt
+# brew_if lynx
 brew_if ncdu
 brew_if terminal-notifier
 brew_if fzf
@@ -44,21 +44,24 @@ brew_if jq
 # Mac's ruby is Mac's ruby. If you don't install your own
 # then you need sudo just to install gems, which is ugh.
 brew_if ruby
-gem install mailqun
+# gem install mailqun
 gem install echolor
 
 brew cask install vlc
 brew cask install flux
 brew cask install clipy
-brew cask install franz
+# brew cask install franz
 brew cask install puush
 brew cask install slack
 brew cask install alfred
 brew cask install kindle
 brew cask install spotify
-brew cask install cleanmymac
+# brew cask install cleanmymac
 brew cask install sublime-text
 brew cask install google-chrome
+brew cask install whatsapp
+
+sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
 
 git config --global user.email "harman28@gmail.com"
 git config --global user.name "Harman Singh"
