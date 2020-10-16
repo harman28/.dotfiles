@@ -60,8 +60,15 @@ brew cask install spotify
 brew cask install sublime-text
 brew cask install google-chrome
 brew cask install whatsapp
+brew cask install notion
+brew cask install discord
+brew cask install zoomus
 
+# Sublime CLI
 sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
+
+# Let me quit Finder
+defaults write com.apple.finder QuitMenuItem -bool true
 
 git config --global user.email "harman28@gmail.com"
 git config --global user.name "Harman Singh"
