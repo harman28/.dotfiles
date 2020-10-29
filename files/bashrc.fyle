@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Company related things, that can probably be removed or repurposed when I leave, go here.
+
+# Be lazy immediately
+function gofyle_gogogo(){
+  chrome 'https://mail.google.com/mail/u/1/#inbox' \
+      'https://calendar.google.com/calendar/u/1/r#main_7'
+
+  open /Applications/Slack.app
+  open /Applications/Spotify.app
+  open /Applications/WhatsApp.app
+  open /Applications/Notion.app
+}

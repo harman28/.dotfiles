@@ -21,6 +21,7 @@ source_if ~/.dotfiles/files/bashrc._git     # Git related scripts
 source_if ~/.dotfiles/files/bashrc.mac      # Stuff that works only on Macs
 source_if ~/.dotfiles/files/bashrc.housing  # Housing
 source_if ~/.dotfiles/files/bashrc.razorpay # Razorpay
+source_if ~/.dotfiles/files/bashrc.fyle     # Fyle
 source_if ~/.dotfiles/files/bashrc.apps     # Scripts that expect some stuff to be installed
 source_if ~/.dotfiles/files/bashrc.path     # $PATH config
 source_if ~/.dotfiles/files/bashrc.vars     # Env variables for various projects
