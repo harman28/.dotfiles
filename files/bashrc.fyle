@@ -12,3 +12,16 @@ function gofyle_gogogo(){
   open /Applications/WhatsApp.app
   open /Applications/Notion.app
 }
+
+
+function fyledb-india() {
+  PGPASSWORD=$FYLE_PSQL_IN_PASSWORD psql -h $FYLE_PSQL_IN_HOST -U $FYLE_PSQL_IN_USER prod
+}
+
+function fyledb-us() {
+  PGPASSWORD=$FYLE_PSQL_US_PASSWORD psql -h $FYLE_PSQL_US_HOST -U $FYLE_PSQL_IN_USER prod
+}
+
+function fyledb-segment() {
+  PGPASSWORD=$FYLE_SEGMENTDB_IN_PASSWORD psql -h $FYLE_SEGMENTDB_IN_HOST -U $FYLE_SEGMENTDB_IN_USER marketing
+}

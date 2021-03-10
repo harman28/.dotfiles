@@ -67,6 +67,16 @@ brew cask install zoomus
 # Sublime CLI
 sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
 
+
+# Enables DNS over HTTPS
+# You still need to change your DNS to something that supports DoH.
+# Google (8.8.8.8) or Cloudflare (1.1.1.1) are popular options.
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --enable-features="dns-over-https<DoHTrial" \
+  --force-fieldtrials="DoHTrial/Group1" \
+  --force-fieldtrial-params="DoHTrial.Group1:server/https%3A%2F%2Fcloudflare-dns%2Ecom%2Fdns-query/method/POST"
+
+
 # Let me quit Finder
 defaults write com.apple.finder QuitMenuItem -bool true
 
